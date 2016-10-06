@@ -20,6 +20,7 @@
       <Filter>Scene Files</Filter>
     </None>
     <None Include="journal\journal.md.html" />
+    <None Include="doc-files\report.md.html" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -38,5 +39,13 @@
       <UniqueIdentifier>{f7819c7b-69f2-4778-bec8-4dbee2bfa711}</UniqueIdentifier>
       <Extensions>*.any</Extensions>
     </Filter>
+    <Filter Include="data-files">
+      <UniqueIdentifier>{e5660681-8b86-4aec-870a-daea20239d37}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="data-files\model\castle.obj">
+      <Filter>data-files</Filter>
+    </Object>
   </ItemGroup>
 </Project>

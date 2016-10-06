@@ -41,14 +41,10 @@
         }; 
 
         carModel = ArticulatedModel::Specification {
-            filename = "eracoon-lowpoly-vehicle/car-groupc-2.obj";
-            preprocess = {
-                setMaterial("car-groupc-2-grey_Cube.904_carmaterial_silver/carmaterial_silver", 
-                    UniversalMaterial::Specification {
-                        lambertian = Color3(0.95, 0.35, 0.02);
-                        glossy = Color4(Color3(0.04), 0.9);
-                    });
-            };
+            filename = "model/castle.obj";
+         
+            
+        
         };
     };
     
@@ -62,3 +58,5 @@
         };
     }; 
  } 
+
+
