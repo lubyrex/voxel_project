@@ -1,5 +1,10 @@
 /** \file App.cpp */
 #include "App.h"
+#include <iostream>
+#include <fstream>
+using namespace std;
+#include <stdio.h>
+
 
 // Tells C++ to invoke command-line main() function even on OS X and Win32.
 G3D_START_AT_MAIN();
@@ -55,23 +60,75 @@ App::App(const GApp::Settings& settings) : GApp(settings) {
 // automatically caught.
 void App::onInit() {
     GApp::onInit();
-    setFrameDuration(1.0f / 120.0f);
+    //setFrameDuration(1.0f / 120.0f);
 
-    // Call setScene(shared_ptr<Scene>()) or setScene(MyScene::create()) to replace
-    // the default scene here.
+    //// Call setScene(shared_ptr<Scene>()) or setScene(MyScene::create()) to replace
+    //// the default scene here.
+    //
+    //showRenderingStats      = false;
+
+    //makeGUI();
+    //// For higher-quality screenshots:
+    //// developerWindow->videoRecordDialog->setScreenShotFormat("PNG");
+    //// developerWindow->videoRecordDialog->setCaptureGui(false);
+    //developerWindow->cameraControlWindow->moveTo(Point2(developerWindow->cameraControlWindow->rect().x0(), 0));
+    //loadScene(
+    //    //"G3D Sponza"
+    //    "G3D Cornell Box" // Load something simple
+    //    //developerWindow->sceneEditorWindow->selectedSceneName()  // Load the first scene encountered 
+    //    );
+   
+    BinaryInput voxInput("monu1.vox",G3D_LITTLE_ENDIAN);
+    G3D::ParseVOX s;
+    s.ParseVOX::parse(voxInput);
+    testMesh(s);
+   /* shared_ptr<ArticulatedModel> test;
+    test->createEmpty("ya");
     
-    showRenderingStats      = false;
+    ArticulatedModel::Part* part(test -> addPart("part",NULL));
+    ArticulatedModel::Geometry* geom(test -> addGeometry("geom"));
+    ArticulatedModel::Mesh* mesh(test->addMesh("first",part,geom));*/
+    
+}
 
-    makeGUI();
-    // For higher-quality screenshots:
-    // developerWindow->videoRecordDialog->setScreenShotFormat("PNG");
-    // developerWindow->videoRecordDialog->setCaptureGui(false);
-    developerWindow->cameraControlWindow->moveTo(Point2(developerWindow->cameraControlWindow->rect().x0(), 0));
-    loadScene(
-        //"G3D Sponza"
-        "G3D Cornell Box" // Load something simple
-        //developerWindow->sceneEditorWindow->selectedSceneName()  // Load the first scene encountered 
-        );
+
+void App::testMesh( G3D::ParseVOX s ){
+    TextOutput myfile("../data-files/model/test.obj");
+    //bad upper bound
+    
+    Array<ParseVOX::Voxel> testarray = s.voxel;
+    int l = testarray.length();
+    for (int i = 0; i < l; ++i) {
+        ParseVOX::Voxel testvoxel = s.voxel[i];
+        Point3uint8 position = testvoxel.position;
+        myfile.printf("v %d %d %d \n",position.x,position.y,position.z);
+        myfile.printf("v %d %d %d \n",position.x+1,position.y,position.z);
+        myfile.printf("v %d %d %d \n",position.x+1,position.y+1,position.z);
+        myfile.printf("v %d %d %d \n",position.x,position.y+1,position.z);
+        myfile.printf("v %d %d %d \n",position.x,position.y,position.z+1);
+        myfile.printf("v %d %d %d \n",position.x+1,position.y,position.z+1);
+        myfile.printf("v %d %d %d \n",position.x+1,position.y+1,position.z+1);
+        myfile.printf("v %d %d %d \n",position.x,position.y+1,position.z+1);
+    }
+      for (int i = 0; i < l; ++i) {
+        ParseVOX::Voxel testvoxel = s.voxel[i];
+        Point3uint8 position = testvoxel.position;
+        
+        myfile.printf("f %d %d %d %d \n",5+8*i,6+8*i,7+8*i,8+8*i);
+        myfile.printf("f %d %d %d %d \n",6+8*i,2+8*i,3+8*i,7+8*i);
+        myfile.printf("f %d %d %d %d \n",2+8*i,1+8*i,4+8*i,3+8*i);
+        myfile.printf("f %d %d %d %d \n",1+8*i,5+8*i,8+8*i,4+8*i);
+        myfile.printf("f %d %d %d %d \n",8+8*i,7+8*i,3+8*i,4+8*i);
+        myfile.printf("f %d %d %d %d \n",6+8*i,2+8*i,1+8*i,5+8*i);
+    }
+    TextOutput testfile("../data-files/model/test.txt");
+    for (int i = 0; i < l; ++i) {
+        ParseVOX::Voxel testvoxel = s.voxel[i];
+        Point3uint8 position = testvoxel.position;
+        testfile.printf("v %d %d %d \n",position.x,position.y,position.z);
+    }
+    myfile.commit();
+    testfile.commit();
 }
 
 
