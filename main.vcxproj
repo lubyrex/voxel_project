@@ -95,14 +95,15 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="data-files\chr_jp.vox" />
+    <None Include="data-files\chr_knight.vox" />
+    <None Include="data-files\monu0.vox" />
+    <None Include="data-files\monu1.vox" />
     <None Include="data-files\test.Scene.Any" />
     <None Include="doc-files\report.md.html" />
     <None Include="Doxyfile" />
     <None Include="journal\journal.md.html" />
     <None Include="mainpage.dox" />
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="data-files\model\castle.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

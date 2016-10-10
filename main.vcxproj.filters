@@ -21,6 +21,18 @@
     </None>
     <None Include="journal\journal.md.html" />
     <None Include="doc-files\report.md.html" />
+    <None Include="data-files\chr_jp.vox">
+      <Filter>data-files</Filter>
+    </None>
+    <None Include="data-files\chr_knight.vox">
+      <Filter>data-files</Filter>
+    </None>
+    <None Include="data-files\monu0.vox">
+      <Filter>data-files</Filter>
+    </None>
+    <None Include="data-files\monu1.vox">
+      <Filter>data-files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -42,10 +54,5 @@
     <Filter Include="data-files">
       <UniqueIdentifier>{e5660681-8b86-4aec-870a-daea20239d37}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="data-files\model\castle.obj">
-      <Filter>data-files</Filter>
-    </Object>
   </ItemGroup>
 </Project>
