@@ -62,26 +62,27 @@ void App::onInit() {
     GApp::onInit();
     //setFrameDuration(1.0f / 120.0f);
 
-    //// Call setScene(shared_ptr<Scene>()) or setScene(MyScene::create()) to replace
-    //// the default scene here.
-    //
-    //showRenderingStats      = false;
+    // Call setScene(shared_ptr<Scene>()) or setScene(MyScene::create()) to replace
+    // the default scene here.
+    
+    showRenderingStats      = false;
 
-    //makeGUI();
-    //// For higher-quality screenshots:
-    //// developerWindow->videoRecordDialog->setScreenShotFormat("PNG");
-    //// developerWindow->videoRecordDialog->setCaptureGui(false);
-    //developerWindow->cameraControlWindow->moveTo(Point2(developerWindow->cameraControlWindow->rect().x0(), 0));
-    //loadScene(
-    //    //"G3D Sponza"
-    //    "G3D Cornell Box" // Load something simple
-    //    //developerWindow->sceneEditorWindow->selectedSceneName()  // Load the first scene encountered 
-    //    );
-   
-    BinaryInput voxInput("monu1.vox",G3D_LITTLE_ENDIAN);
+    makeGUI();
+    // For higher-quality screenshots:
+    // developerWindow->videoRecordDialog->setScreenShotFormat("PNG");
+    // developerWindow->videoRecordDialog->setCaptureGui(false);
+    developerWindow->cameraControlWindow->moveTo(Point2(developerWindow->cameraControlWindow->rect().x0(), 0));
+    BinaryInput voxInput("untitled.vox",G3D_LITTLE_ENDIAN);
     G3D::ParseVOX s;
     s.ParseVOX::parse(voxInput);
-    testMesh(s);
+    culling2(s);
+    loadScene(
+        //"G3D Sponza"
+        "Test Scene" // Load something simple
+        //developerWindow->sceneEditorWindow->selectedSceneName()  // Load the first scene encountered 
+        );
+   
+   
    /* shared_ptr<ArticulatedModel> test;
     test->createEmpty("ya");
     
@@ -98,27 +99,34 @@ void App::testMesh( G3D::ParseVOX s ){
     
     Array<ParseVOX::Voxel> testarray = s.voxel;
     int l = testarray.length();
+    
+    myfile.printf("vn -1 0 0\nvn 1 0 0\nvn 0 0 1\nvn 0 0 -1\nvn 0 -1 0\nvn 0 1 0\n");
     for (int i = 0; i < l; ++i) {
         ParseVOX::Voxel testvoxel = s.voxel[i];
         Point3uint8 position = testvoxel.position;
-        myfile.printf("v %d %d %d \n",position.x,position.y,position.z);
-        myfile.printf("v %d %d %d \n",position.x+1,position.y,position.z);
-        myfile.printf("v %d %d %d \n",position.x+1,position.y+1,position.z);
-        myfile.printf("v %d %d %d \n",position.x,position.y+1,position.z);
-        myfile.printf("v %d %d %d \n",position.x,position.y,position.z+1);
-        myfile.printf("v %d %d %d \n",position.x+1,position.y,position.z+1);
-        myfile.printf("v %d %d %d \n",position.x+1,position.y+1,position.z+1);
-        myfile.printf("v %d %d %d \n",position.x,position.y+1,position.z+1);
+        myfile.printf("v %d %d %d \n",position.x,position.z,position.y);
+        myfile.printf("v %d %d %d \n",position.x+1,position.z,position.y);
+        myfile.printf("v %d %d %d \n",position.x+1,position.z,position.y+1);
+        myfile.printf("v %d %d %d \n",position.x,position.z,position.y+1);
+        myfile.printf("v %d %d %d \n",position.x,position.z+1,position.y);
+        myfile.printf("v %d %d %d \n",position.x+1,position.z+1,position.y);
+        myfile.printf("v %d %d %d \n",position.x+1,position.z+1,position.y+1);
+        myfile.printf("v %d %d %d \n",position.x,position.z+1,position.y+1);
     }
       for (int i = 0; i < l; ++i) {
         ParseVOX::Voxel testvoxel = s.voxel[i];
         Point3uint8 position = testvoxel.position;
-        
-        myfile.printf("f %d %d %d %d \n",5+8*i,6+8*i,7+8*i,8+8*i);
-        myfile.printf("f %d %d %d %d \n",6+8*i,2+8*i,3+8*i,7+8*i);
-        myfile.printf("f %d %d %d %d \n",2+8*i,1+8*i,4+8*i,3+8*i);
-        myfile.printf("f %d %d %d %d \n",1+8*i,5+8*i,8+8*i,4+8*i);
-        myfile.printf("f %d %d %d %d \n",8+8*i,7+8*i,3+8*i,4+8*i);
+        //top
+        myfile.printf("f %d %d %d %d \n",5+8*i,8+8*i,7+8*i,6+8*i);
+        //left
+        myfile.printf("f %d %d %d %d \n",6+8*i,7+8*i,3+8*i,2+8*i);
+        //bot
+        myfile.printf("f %d %d %d %d \n",2+8*i,3+8*i,4+8*i,1+8*i);
+        //right
+        myfile.printf("f %d %d %d %d \n",1+8*i,4+8*i,8+8*i,5+8*i);
+        //back
+        myfile.printf("f %d %d %d %d \n",8+8*i,4+8*i,3+8*i,7+8*i);
+        //front
         myfile.printf("f %d %d %d %d \n",6+8*i,2+8*i,1+8*i,5+8*i);
     }
     TextOutput testfile("../data-files/model/test.txt");
@@ -130,6 +138,169 @@ void App::testMesh( G3D::ParseVOX s ){
     myfile.commit();
     testfile.commit();
 }
+
+void App::culling( G3D::ParseVOX s ){
+    TextOutput myfile("../data-files/model/culling.obj");
+    //bad upper bound
+    shared_ptr<Table<G3D::Point3uint8,int>> table(new G3D::Table<G3D::Point3uint8,int>());
+    Array<ParseVOX::Voxel> testarray = s.voxel;
+    ParseVOX::Voxel testvoxel;
+    int l = testarray.length();
+    for (int i = 0; i < l; ++i) {
+        testvoxel = s.voxel[i];
+        Point3uint8 position = testvoxel.position;
+        table->set(position,1);
+    }
+    for (int i = 0; i < l; ++i) {
+        testvoxel = testarray[i];
+        Point3uint8 position = testvoxel.position;
+        if(table->containsKey(Vector3uint8(position.x,position.y,position.z+1))&&
+        table->containsKey(Vector3uint8(position.x+1,position.y,position.z))&&
+        table->containsKey(Vector3uint8(position.x,position.y,position.z-1))&&
+        table->containsKey(Vector3uint8(position.x-1,position.y,position.z))&&
+        table->containsKey(Vector3uint8(position.x,position.y+1,position.z))&&
+        table->containsKey(Vector3uint8(position.x,position.y-1,position.z))){
+            testarray.remove(i);
+            --i;
+            --l;
+        }
+    }
+    
+
+    myfile.printf("vn -1 0 0\nvn 1 0 0\nvn 0 0 1\nvn 0 0 -1\nvn 0 -1 0\nvn 0 1 0\n");
+    
+    for (int i = 0; i < l; ++i) {
+        testvoxel = testarray[i];
+        Point3uint8 position = testvoxel.position;
+        //1
+        myfile.printf("v %d %d %d \n",position.x,position.z,position.y);
+        //2
+        myfile.printf("v %d %d %d \n",position.x+1,position.z,position.y);
+        //3
+        myfile.printf("v %d %d %d \n",position.x+1,position.z,position.y+1);
+        //4
+        myfile.printf("v %d %d %d \n",position.x,position.z,position.y+1);
+        //5
+        myfile.printf("v %d %d %d \n",position.x,position.z+1,position.y);
+        //6
+        myfile.printf("v %d %d %d \n",position.x+1,position.z+1,position.y);
+        //7
+        myfile.printf("v %d %d %d \n",position.x+1,position.z+1,position.y+1);
+        //8
+        myfile.printf("v %d %d %d \n",position.x,position.z+1,position.y+1);
+    }
+      for (int i = 0; i < l; ++i) {
+        testvoxel =testarray[i];
+        Point3uint8 position = testvoxel.position;
+        if(!table->containsKey(Vector3uint8(position.x,position.y,position.z+1))){
+        myfile.printf("f %d %d %d %d \n",5+8*i,8+8*i,7+8*i,6+8*i);
+        }
+        if(!table->containsKey(Vector3uint8(position.x+1,position.y,position.z))){
+        myfile.printf("f %d %d %d %d \n",6+8*i,7+8*i,3+8*i,2+8*i);
+        }
+        if(!table->containsKey(Vector3uint8(position.x,position.y,position.z-1))){
+        myfile.printf("f %d %d %d %d \n",2+8*i,3+8*i,4+8*i,1+8*i);
+        }
+        if(!table->containsKey(Vector3uint8(position.x-1,position.y,position.z))){
+        myfile.printf("f %d %d %d %d \n",1+8*i,4+8*i,8+8*i,5+8*i);
+        }
+        if(!table->containsKey(Vector3uint8(position.x,position.y+1,position.z))){
+        myfile.printf("f %d %d %d %d \n",8+8*i,4+8*i,3+8*i,7+8*i);
+        }
+        if(!table->containsKey(Vector3uint8(position.x,position.y-1,position.z))){
+        myfile.printf("f %d %d %d %d \n",6+8*i,2+8*i,1+8*i,5+8*i);
+        }
+    }
+    TextOutput testfile("../data-files/model/test.txt");
+    for (int i = 0; i < l; ++i) {
+        ParseVOX::Voxel testvoxel = s.voxel[i];
+        Point3uint8 position = testvoxel.position;
+        testfile.printf("v %d %d %d \n",position.x,position.y,position.z);
+    }
+    myfile.commit();
+    testfile.commit();
+}
+
+
+
+void App::culling2( G3D::ParseVOX s ){
+    TextOutput myfile("../data-files/model/culling.obj");
+    //bad upper bound
+    shared_ptr<Table<G3D::Point3uint8,int>> table(new G3D::Table<G3D::Point3uint8,int>());
+    Array<ParseVOX::Voxel> testarray = s.voxel;
+    ParseVOX::Voxel testvoxel;
+    int l = testarray.length();
+    for (int i = 0; i < l; ++i) {
+        testvoxel = s.voxel[i];
+        Point3uint8 position = testvoxel.position;
+        table->set(position,1);
+    }
+    for (int i = 0; i < l; ++i) {
+        testvoxel = testarray[i];
+        Point3uint8 position = testvoxel.position;
+        if(table->containsKey(Vector3uint8(position.x,position.y,position.z+1))&&
+        table->containsKey(Vector3uint8(position.x+1,position.y,position.z))&&
+        table->containsKey(Vector3uint8(position.x,position.y,position.z-1))&&
+        table->containsKey(Vector3uint8(position.x-1,position.y,position.z))&&
+        table->containsKey(Vector3uint8(position.x,position.y+1,position.z))&&
+        table->containsKey(Vector3uint8(position.x,position.y-1,position.z))){
+            testarray.remove(i);
+            --i;
+            --l;
+        }
+    }
+    
+
+    myfile.printf("vn -1 0 0\nvn 1 0 0\nvn 0 0 1\nvn 0 0 -1\nvn 0 -1 0\nvn 0 1 0\n");
+    
+    for (int i = 0; i < l; ++i) {
+        testvoxel = testarray[i];
+        Point3uint8 position = testvoxel.position;
+        //1
+        myfile.printf("v %d %d %d \n",position.x,position.z,position.y);
+        //2
+        myfile.printf("v %d %d %d \n",position.x+1,position.z,position.y);
+        //3
+        myfile.printf("v %d %d %d \n",position.x+1,position.z,position.y+1);
+        //4
+        myfile.printf("v %d %d %d \n",position.x,position.z,position.y+1);
+        //5
+        myfile.printf("v %d %d %d \n",position.x,position.z+1,position.y);
+        //6
+        myfile.printf("v %d %d %d \n",position.x+1,position.z+1,position.y);
+        //7
+        myfile.printf("v %d %d %d \n",position.x+1,position.z+1,position.y+1);
+        //8
+        myfile.printf("v %d %d %d \n",position.x,position.z+1,position.y+1);
+    }
+      for (int i = 0; i < l; ++i) {
+        testvoxel =testarray[i];
+        Point3uint8 position = testvoxel.position;
+      
+        myfile.printf("f %d %d %d %d \n",5+8*i,8+8*i,7+8*i,6+8*i);
+    
+        myfile.printf("f %d %d %d %d \n",6+8*i,7+8*i,3+8*i,2+8*i);
+    
+        myfile.printf("f %d %d %d %d \n",2+8*i,3+8*i,4+8*i,1+8*i);
+        
+        myfile.printf("f %d %d %d %d \n",1+8*i,4+8*i,8+8*i,5+8*i);
+      
+        myfile.printf("f %d %d %d %d \n",8+8*i,4+8*i,3+8*i,7+8*i);
+       
+        myfile.printf("f %d %d %d %d \n",6+8*i,2+8*i,1+8*i,5+8*i);
+       
+    }
+    TextOutput testfile("../data-files/model/test.txt");
+    for (int i = 0; i < 256; ++i) {
+        Color4unorm8 color(s.palette[i]);
+        
+        testfile.printf("v %d %d %d \n",color.r,color.g,color.b);
+    }
+    myfile.commit();
+    testfile.commit();
+}
+
+
 
 
 void App::makeGUI() {
