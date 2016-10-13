@@ -33,7 +33,9 @@ public:
     virtual bool onEvent(const GEvent& e) override;
     virtual void onUserInput(UserInput* ui) override;
     virtual void onCleanup() override;
-    virtual void testMesh( G3D::ParseVOX );
+    //virtual void testMesh( G3D::ParseVOX );
     virtual void culling( G3D::ParseVOX );
-    virtual void culling2(G3D::ParseVOX);
+    /*virtual void culling2(G3D::ParseVOX);*/
+    virtual void savePNG(G3D::ParseVOX);
+    virtual void saveMTL(G3D::ParseVOX);
 };
