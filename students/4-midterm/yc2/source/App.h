@@ -13,6 +13,10 @@ protected:
 
     /** Called from onInit */
     void makeGUI();
+    bool m_remove_voxels = true;
+    bool m_remove_surfaces = true;
+    String m_filesource;
+    int m_resolutionChoice = 1;
 
 public:
     
@@ -38,4 +42,5 @@ public:
     /*virtual void culling2(G3D::ParseVOX);*/
     virtual void savePNG(G3D::ParseVOX);
     virtual void saveMTL(G3D::ParseVOX);
+    virtual void message(const String& msg) const;
 };

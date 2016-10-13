@@ -72,18 +72,13 @@ void App::onInit() {
     // developerWindow->videoRecordDialog->setScreenShotFormat("PNG");
     // developerWindow->videoRecordDialog->setCaptureGui(false);
     developerWindow->cameraControlWindow->moveTo(Point2(developerWindow->cameraControlWindow->rect().x0(), 0));
-    BinaryInput voxInput("monu1.vox", G3D_LITTLE_ENDIAN);
-    G3D::ParseVOX s;
-    s.ParseVOX::parse(voxInput);
-    savePNG(s);
-    saveMTL(s);
-    culling(s);
-    
-    loadScene(
-        //"G3D Sponza"
-        "Test Scene" // Load something simple
-        //developerWindow->sceneEditorWindow->selectedSceneName()  // Load the first scene encountered 
-    );
+
+
+    //loadScene(
+    //    //"G3D Sponza"
+    //    "Test Scene" // Load something simple
+    //    //developerWindow->sceneEditorWindow->selectedSceneName()  // Load the first scene encountered 
+    //);
 
 
     /* shared_ptr<ArticulatedModel> test;
@@ -141,17 +136,17 @@ void App::onInit() {
 //    myfile.commit();
 //    testfile.commit();
 //}
-void App::savePNG(G3D::ParseVOX s){
-    shared_ptr<Image> image(Image::create(256,1,ImageFormat::RGB32F()));
-    for (int i = 0;i<256;++i){
-        image->set(G3D::Point2int32(i, 0),s.palette[i+1]);
+void App::savePNG(G3D::ParseVOX s) {
+    shared_ptr<Image> image(Image::create(256, 1, ImageFormat::RGB32F()));
+    for (int i = 0; i < 256; ++i) {
+        image->set(G3D::Point2int32(i, 0), s.palette[i + 1]);
     }
     image->convert(ImageFormat::RGB8());
     image->save("../data-files/model/culling.png");
 }
 
 
-void App::saveMTL(G3D::ParseVOX s){
+void App::saveMTL(G3D::ParseVOX s) {
     TextOutput myfile("../data-files/model/culling.mtl");
     myfile.printf("newmtl palette \n");
     //don't know what this means
@@ -166,104 +161,282 @@ void App::saveMTL(G3D::ParseVOX s){
 void App::culling(G3D::ParseVOX s) {
     TextOutput myfile("../data-files/model/culling.obj");
     //hashtable for the voxels, int is just a random int.
-    shared_ptr<Table<G3D::Point3uint8, int>> table(new G3D::Table<G3D::Point3uint8, int>());
-    shared_ptr<Table<int, int>> texcoordtable(new G3D::Table<int, int>());
-    Array<ParseVOX::Voxel> voxelarray = s.voxel;
-    ParseVOX::Voxel voxel;
-    int l = voxelarray.length();
-    //stores voxel position into a hashtable
-    for (int i = 0; i < l; ++i) {
-        voxel = s.voxel[i];
-        Point3uint8 position = voxel.position;
-        table->set(position, 1);
+    Table<int, int> texcoordtable;
+    const Array<ParseVOX::Voxel>& voxelarray = s.voxel;
+    //int l = voxelarray.length();
+    Array<Vector3> vertexArray;
+    Array<Vector2> textureCoords;
+    Array<Vector3> normalArray;
+
+    Set<Point3uint8> occupied;
+    for (const ParseVOX::Voxel& voxel : voxelarray) {
+        occupied.insert(voxel.position);
     }
-    //remove excess voxels using hashtable
-    for (int i = 0; i < l; ++i) {
-        voxel = voxelarray[i];
+
+    Array<int> indexArray;
+
+    for (const ParseVOX::Voxel& voxel : voxelarray) {
         Point3uint8 position = voxel.position;
-        if (table->containsKey(Vector3uint8(position.x, position.y, position.z + 1)) &&
-            table->containsKey(Vector3uint8(position.x + 1, position.y, position.z)) &&
-            table->containsKey(Vector3uint8(position.x, position.y, position.z - 1)) &&
-            table->containsKey(Vector3uint8(position.x - 1, position.y, position.z)) &&
-            table->containsKey(Vector3uint8(position.x, position.y + 1, position.z)) &&
-            table->containsKey(Vector3uint8(position.x, position.y - 1, position.z))) {
-            voxelarray.remove(i);
-            --i;
-            --l;
+        Vector3 vecposition(position.x, position.y, position.z);
+        if (!occupied.contains(position + Vector3uint8(1, 0, 0))) {
+            const int n = vertexArray.size();
+
+            vertexArray.append(vecposition + Vector3(1, 0, 0), vecposition + Vector3(1, 1, 0), vecposition + Vector3(1, 1, 1), vecposition + Vector3(1, 0, 1));
+            for (int a = 0; a < 3; ++a) {
+                indexArray.append(n + a);
+                textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+            indexArray.append(n);
+            textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+            for (int a = 2; a < 4; ++a) {
+                indexArray.append(n + a);
+
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+
+        }
+        if (!occupied.contains(position + Vector3uint8(-1, 0, 0))) {
+            const int n = vertexArray.size();
+
+            vertexArray.append(vecposition + Vector3(0, 0, 0), vecposition + Vector3(0, 0, 1), vecposition + Vector3(0, 1, 1), vecposition + Vector3(0, 1, 0));
+
+            for (int a = 0; a < 3; ++a) {
+                indexArray.append(n + a);
+                textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+            indexArray.append(n);
+            textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+            for (int a = 2; a < 4; ++a) {
+                indexArray.append(n + a);
+
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+        }
+        if (!occupied.contains(position + Vector3uint8(0, 1, 0))) {
+            const int n = vertexArray.size();
+
+            vertexArray.append(vecposition + Vector3(0, 1, 0), vecposition + Vector3(0, 1, 1), vecposition + Vector3(1, 1, 1), vecposition + Vector3(1, 1, 0));
+
+
+            for (int a = 0; a < 3; ++a) {
+                indexArray.append(n + a);
+                textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+            indexArray.append(n);
+            textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+            for (int a = 2; a < 4; ++a) {
+                indexArray.append(n + a);
+
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+
+        }
+        if (!occupied.contains(position + Vector3uint8(0, -1, 0))) {
+
+            const int n = vertexArray.size();
+
+            vertexArray.append(vecposition + Vector3(0, 0, 0), vecposition + Vector3(1, 0, 0), vecposition + Vector3(1, 0, 1), vecposition + Vector3(0, 0, 1));
+
+
+            for (int a = 0; a < 3; ++a) {
+                indexArray.append(n + a);
+                textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+            indexArray.append(n);
+            textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+            for (int a = 2; a < 4; ++a) {
+                indexArray.append(n + a);
+
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+        }
+        if (!occupied.contains(position + Vector3uint8(0, 0, 1))) {
+            const int n = vertexArray.size();
+
+            vertexArray.append(vecposition + Vector3(0, 0, 1), vecposition + Vector3(1, 0, 1), vecposition + Vector3(1, 1, 1), vecposition + Vector3(0, 1, 1));
+
+            for (int a = 0; a < 3; ++a) {
+                indexArray.append(n + a);
+                textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+            indexArray.append(n);
+            textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+            for (int a = 2; a < 4; ++a) {
+                indexArray.append(n + a);
+
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+
+        }
+        if (!occupied.contains(position + Vector3uint8(0, 0, -1))) {
+            const int n = vertexArray.size();
+
+            vertexArray.append(vecposition + Vector3(0, 0, 0), vecposition + Vector3(0, 1, 0), vecposition + Vector3(1, 1, 0), vecposition + Vector3(1, 0, 0));
+
+            for (int a = 0; a < 3; ++a) {
+                indexArray.append(n + a);
+                textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+            indexArray.append(n);
+            textureCoords.append(Vector2((float(voxel.index) - 0.5f) / 256.0f, 0.5f));
+            for (int a = 2; a < 4; ++a) {
+                indexArray.append(n + a);
+
+                //normalArray.append(Vector3(1, 0, 0));
+            }
+
         }
     }
+    Welder::Settings settings;
+    Welder::weld(vertexArray, textureCoords, normalArray, indexArray, settings);
     myfile.printf("\n# material\n mtllib culling.mtl\n usemtl palette \n");
-    //print vertex normals
-    myfile.printf("\n# normals\n");
-    myfile.printf("vn -1 0 0\nvn 1 0 0\nvn 0 0 1\nvn 0 0 -1\nvn 0 -1 0\nvn 0 1 0\n");
 
-    //print texture coordinates
-    //count the number of texcoords
-    int count = 1;
-    myfile.printf("\n# texcoords\n");
-    for (int i = 0; i < l; ++i) {
-        ParseVOX::Voxel testvoxel = voxelarray[i];
-        //convert unint to int
-        int index = testvoxel.index;
-        if (!texcoordtable->containsKey(index)) {
-            texcoordtable->set(index, count);
-            ++count;
-            float texture = (((float)index) - 0.5f) / 256.0f;
-            myfile.printf("vt %f 0.5\n", texture);
+
+    //MAP vertex,normal,texture, to reduce redundant values
+    Table<Vector3, int> vertexMap;
+    Table<Vector3, int> normalMap;
+    Table<Vector2, int> textureMap;
+    for (const Vector3& position : vertexArray) {
+        if (!vertexMap.containsKey(position)) {
+            myfile.printf("v %f %f %f \n", position.x, position.z, position.y);
+            vertexMap.set(position, vertexMap.size());
+        }
+    }
+    for (const Vector2& texture : textureCoords) {
+
+        if (!textureMap.containsKey(texture)) {
+            myfile.printf("vt %f %f \n", texture.x, texture.y);
+            textureMap.set(texture, textureMap.size());
+        }
+    }
+    for (const Vector3& normal : normalArray) {
+
+        if (!normalMap.containsKey(normal)) {
+            myfile.printf("vn %f %f %f \n", normal.x,normal.z, normal.y);
+            normalMap.set(normal, normalMap.size());
         }
     }
 
-    //print vertex coordinates
-    myfile.printf("\n# verts\n");
-    for (int i = 0; i < l; ++i) {
-        voxel = voxelarray[i];
-        Point3uint8 position = voxel.position;
-        //1
-        myfile.printf("v %d %d %d \n", position.x, position.z, position.y);
-        //2
-        myfile.printf("v %d %d %d \n", position.x + 1, position.z, position.y);
-        //3
-        myfile.printf("v %d %d %d \n", position.x + 1, position.z, position.y + 1);
-        //4
-        myfile.printf("v %d %d %d \n", position.x, position.z, position.y + 1);
-        //5
-        myfile.printf("v %d %d %d \n", position.x, position.z + 1, position.y);
-        //6
-        myfile.printf("v %d %d %d \n", position.x + 1, position.z + 1, position.y);
-        //7
-        myfile.printf("v %d %d %d \n", position.x + 1, position.z + 1, position.y + 1);
-        //8
-        myfile.printf("v %d %d %d \n", position.x, position.z + 1, position.y + 1);
-    }
-    //print surface coordinates and using hashtable to eliminate unused ones
-    myfile.printf("\n# faces\n");
-    for (int i = 0; i < l; ++i) {
-        voxel = voxelarray[i];
-        Point3uint8 position = voxel.position;
-        int texindex = voxel.index;
-        int texcoindex = texcoordtable->get(texindex);
-        if (!table->containsKey(Vector3uint8(position.x, position.y, position.z + 1))) {
-            myfile.printf("f %d/%d/6 %d/%d/6 %d/%d/6 %d/%d/6 \n", 5 + 8 * i, texcoindex, 8 + 8 * i, texcoindex, 7 + 8 * i, texcoindex, 6 + 8 * i, texcoindex);
-        }
-        if (!table->containsKey(Vector3uint8(position.x + 1, position.y, position.z))) {
-            myfile.printf("f %d/%d/2 %d/%d/2 %d/%d/2 %d/%d/2 \n", 6 + 8 * i, texcoindex, 7 + 8 * i, texcoindex, 3 + 8 * i, texcoindex, 2 + 8 * i, texcoindex);
-        }
-        if (!table->containsKey(Vector3uint8(position.x, position.y, position.z - 1))) {
-            myfile.printf("f %d/%d/5 %d/%d/5 %d/%d/5 %d/%d/5 \n", 2 + 8 * i, texcoindex, 3 + 8 * i, texcoindex, 4 + 8 * i, texcoindex, 1 + 8 * i, texcoindex);
-        }
-        if (!table->containsKey(Vector3uint8(position.x - 1, position.y, position.z))) {
-            myfile.printf("f %d/%d/1 %d/%d/1 %d/%d/1 %d/%d/1 \n", 1 + 8 * i, texcoindex, 4 + 8 * i, texcoindex, 8 + 8 * i, texcoindex, 5 + 8 * i, texcoindex);
-        }
-        if (!table->containsKey(Vector3uint8(position.x, position.y + 1, position.z))) {
-            myfile.printf("f %d/%d/3 %d/%d/3 %d/%d/3 %d/%d/3 \n", 8 + 8 * i, texcoindex, 4 + 8 * i, texcoindex, 3 + 8 * i, texcoindex, 7 + 8 * i, texcoindex);
-        }
-        if (!table->containsKey(Vector3uint8(position.x, position.y - 1, position.z))) {
-            myfile.printf("f %d/%d/4 %d/%d/4 %d/%d/4 %d/%d/4 \n", 6 + 8 * i, texcoindex, 2 + 8 * i, texcoindex, 1 + 8 * i, texcoindex, 5 + 8 * i, texcoindex);
-        }
-    }
+    //Printing
+    int size = indexArray.size();
+    for (int i = 0; i < size; i += 3) {
 
+        myfile.printf("f %d/%d/%d %d/%d/%d %d/%d/%d \n",
+            vertexMap.get(vertexArray[indexArray[i] ])+1,
+            textureMap.get(textureCoords[indexArray[i] ])+1,
+            normalMap.get(normalArray[indexArray[i]])+1,
 
+            vertexMap.get(vertexArray[indexArray[i + 2]])+1,
+            textureMap.get(textureCoords[indexArray[i + 2]])+1,
+            normalMap.get(normalArray[indexArray[i + 2]])+1,
+
+            vertexMap.get(vertexArray[indexArray[i + 1] ])+1,
+            textureMap.get(textureCoords[indexArray[i + 1]])+1,
+            normalMap.get(normalArray[indexArray[i + 1] ])+1
+
+            
+        );
+    }
     myfile.commit();
+  
+
+
+    ///////////////////////////////////////////////////////
+
+
+    //remove excess voxels using hashtable
+    //for (int i = 0; i < l; ++i) {
+    //    const ParseVOX::Voxel& voxel = voxelarray[i];
+    //    Point3uint8 position = voxel.position;
+    //    if (occupied.contains(Vector3uint8(position.x, position.y, position.z + 1)) &&
+    //        occupied.contains(Vector3uint8(position.x + 1, position.y, position.z)) &&
+    //        occupied.contains(Vector3uint8(position.x, position.y, position.z - 1)) &&
+    //        occupied.contains(Vector3uint8(position.x - 1, position.y, position.z)) &&
+    //        occupied.contains(Vector3uint8(position.x, position.y + 1, position.z)) &&
+    //        occupied.contains(Vector3uint8(position.x, position.y - 1, position.z))) {
+    //        voxelarray.remove(i);
+    //        --i;
+    //        --l;
+    //    }
+    //}
+    //myfile.printf("\n# material\n mtllib culling.mtl\n usemtl palette \n");
+    ////print vertex normals
+    //myfile.printf("\n# normals\n");
+    //myfile.printf("vn -1 0 0\nvn 1 0 0\nvn 0 0 1\nvn 0 0 -1\nvn 0 -1 0\nvn 0 1 0\n");
+
+    ////print texture coordinates
+    ////count the number of texcoords
+    //int count = 1;
+    //myfile.printf("\n# texcoords\n");
+    //for (int i = 0; i < l; ++i) {
+    //    ParseVOX::Voxel testvoxel = voxelarray[i];
+    //    //convert unint to int
+    //    int index = testvoxel.index;
+    //    if (!texcoordtable->containsKey(index)) {
+    //        texcoordtable->set(index, count);
+    //        ++count;
+    //        float texture = (((float)index) - 0.5f) / 256.0f;
+    //        myfile.printf("vt %f 0.5\n", texture);
+    //    }
+    //}
+
+    ////print vertex coordinates
+    //myfile.printf("\n# verts\n");
+    //for (int i = 0; i < l; ++i) {
+    //    voxel = voxelarray[i];
+    //    Point3uint8 position = voxel.position;
+    //    //1
+    //    myfile.printf("v %d %d %d \n", position.x, position.z, position.y);
+    //    //2
+    //    myfile.printf("v %d %d %d \n", position.x + 1, position.z, position.y);
+    //    //3
+    //    myfile.printf("v %d %d %d \n", position.x + 1, position.z, position.y + 1);
+    //    //4
+    //    myfile.printf("v %d %d %d \n", position.x, position.z, position.y + 1);
+    //    //5
+    //    myfile.printf("v %d %d %d \n", position.x, position.z + 1, position.y);
+    //    //6
+    //    myfile.printf("v %d %d %d \n", position.x + 1, position.z + 1, position.y);
+    //    //7
+    //    myfile.printf("v %d %d %d \n", position.x + 1, position.z + 1, position.y + 1);
+    //    //8
+    //    myfile.printf("v %d %d %d \n", position.x, position.z + 1, position.y + 1);
+    //}
+    ////print surface coordinates and using hashtable to eliminate unused ones
+    //myfile.printf("\n# faces\n");
+    //for (int i = 0; i < l; ++i) {
+    //    voxel = voxelarray[i];
+    //    Point3uint8 position = voxel.position;
+    //    int texindex = voxel.index;
+    //    int texcoindex = texcoordtable->get(texindex);
+    //    if (!table->containsKey(Vector3uint8(position.x, position.y, position.z + 1))) {
+    //        myfile.printf("f %d/%d/6 %d/%d/6 %d/%d/6 %d/%d/6 \n", 5 + 8 * i, texcoindex, 8 + 8 * i, texcoindex, 7 + 8 * i, texcoindex, 6 + 8 * i, texcoindex);
+    //    }
+    //    if (!table->containsKey(Vector3uint8(position.x + 1, position.y, position.z))) {
+    //        myfile.printf("f %d/%d/2 %d/%d/2 %d/%d/2 %d/%d/2 \n", 6 + 8 * i, texcoindex, 7 + 8 * i, texcoindex, 3 + 8 * i, texcoindex, 2 + 8 * i, texcoindex);
+    //    }
+    //    if (!table->containsKey(Vector3uint8(position.x, position.y, position.z - 1))) {
+    //        myfile.printf("f %d/%d/5 %d/%d/5 %d/%d/5 %d/%d/5 \n", 2 + 8 * i, texcoindex, 3 + 8 * i, texcoindex, 4 + 8 * i, texcoindex, 1 + 8 * i, texcoindex);
+    //    }
+    //    if (!table->containsKey(Vector3uint8(position.x - 1, position.y, position.z))) {
+    //        myfile.printf("f %d/%d/1 %d/%d/1 %d/%d/1 %d/%d/1 \n", 1 + 8 * i, texcoindex, 4 + 8 * i, texcoindex, 8 + 8 * i, texcoindex, 5 + 8 * i, texcoindex);
+    //    }
+    //    if (!table->containsKey(Vector3uint8(position.x, position.y + 1, position.z))) {
+    //        myfile.printf("f %d/%d/3 %d/%d/3 %d/%d/3 %d/%d/3 \n", 8 + 8 * i, texcoindex, 4 + 8 * i, texcoindex, 3 + 8 * i, texcoindex, 7 + 8 * i, texcoindex);
+    //    }
+    //    if (!table->containsKey(Vector3uint8(position.x, position.y - 1, position.z))) {
+    //        myfile.printf("f %d/%d/4 %d/%d/4 %d/%d/4 %d/%d/4 \n", 6 + 8 * i, texcoindex, 2 + 8 * i, texcoindex, 1 + 8 * i, texcoindex, 5 + 8 * i, texcoindex);
+    //    }
+    //}
+
+
+    //myfile.commit();
 
 }
 
@@ -356,24 +529,93 @@ void App::makeGUI() {
     debugWindow->setVisible(true);
     developerWindow->videoRecordDialog->setEnabled(true);
 
-    GuiPane* infoPane = debugPane->addPane("Info", GuiTheme::ORNATE_PANE_STYLE);
 
-    // Example of how to add debugging controls
-    infoPane->addLabel("You can add GUI controls");
-    infoPane->addLabel("in App::onInit().");
-    infoPane->addButton("Exit", [this]() { m_endProgram = true; });
-    infoPane->pack();
 
-    // More examples of debugging GUI controls:
-    // debugPane->addCheckBox("Use explicit checking", &explicitCheck);
-    // debugPane->addTextBox("Name", &myName);
-    // debugPane->addNumberBox("height", &height, "m", GuiTheme::LINEAR_SLIDER, 1.0f, 2.5f);
-    // button = debugPane->addButton("Run Simulator");
-    // debugPane->addButton("Generate Heightfield", [this](){ generateHeightfield(); });
-    // debugPane->addButton("Generate Heightfield", [this](){ makeHeightfield(imageName, scale, "model/heightfield.off"); });
+
+
+
+
 
     debugWindow->pack();
     debugWindow->setRect(Rect2D::xywh(0, 0, (float)window()->width(), debugWindow->rect().height()));
+
+    shared_ptr<GuiWindow> window = GuiWindow::create("Controls", debugWindow->theme(), Rect2D::xywh(1025, 175, 0, 0), GuiTheme::TOOL_WINDOW_STYLE);
+    GuiPane* pane = window->pane();
+    pane->addLabel("Use WASD keys + right mouse to move");
+    //Array<String> resolution;
+    //resolution.append("1x1", "320x200", "640x400");
+    //pane->addDropDownList("resolution", resolution, &m_indexPointer);
+
+    pane->addCheckBox("remove excess voxels", &m_remove_voxels);
+    pane->addCheckBox("remove excess surfaces", &m_remove_surfaces);
+    pane->beginRow(); {
+        pane->addTextBox("Input VOX", &m_filesource)->setWidth(210);
+        pane->addButton("...", [this]() {
+            FileDialog::getFilename(m_filesource, "vox", false);
+        })->setWidth(30);
+    } pane->endRow();
+    //pane->addNumberBox("Rays per pixel", &m_raysPerPixel, "", GuiTheme::LINEAR_SLIDER, 0, 2048, 1);
+    pane->addButton("Generate", [this]() {
+        try {
+            message("loading");
+            ArticulatedModel::clearCache();
+            BinaryInput voxInput(m_filesource, G3D_LITTLE_ENDIAN);
+            ParseVOX s;
+            s.parse(voxInput);
+            savePNG(s);
+            saveMTL(s);
+            culling(s);
+            
+            loadScene(
+                developerWindow->sceneEditorWindow->selectedSceneName()
+            );
+        }
+        catch (...) {
+            msgBox("Unable to load the image.", m_filesource);
+        }
+    });
+
+    //pane->addButton("render", [this]() {
+
+    //    try {
+    //        
+    //        switch (m_indexPointer) {
+    //        case 0:m_currentImage = (Image::create(1, 1, ImageFormat::RGB8()));
+    //            break;
+    //        case 1:m_currentImage = (Image::create(320, 200, ImageFormat::RGB8()));
+    //            break;
+    //        case 2:m_currentImage = (Image::create(640, 400, ImageFormat::RGB8()));
+    //            break;
+    //        }
+    //        
+    //    }
+    //    catch (...) {
+    //        msgBox("Unable to render the image.");
+    //    }
+    //    m_rayTracer->m_runConcurrent= m_multiThreading;
+    //    m_rayTracer->m_spheresOn = m_fixedPrimitives;
+    //    m_rayTracer->m_raysPerPixel = m_raysPerPixel;
+    //    onRender();
+
+    //});
+
+    window->pack();
+
+    window->setVisible(true);
+    addWidget(window);
+}
+
+
+
+void App::message(const String& msg) const {
+    renderDevice->clear();
+    renderDevice->push2D();
+    debugFont->draw2D(renderDevice, msg, renderDevice->viewport().center(), 12,
+        Color3::white(), Color4::clear(), GFont::XALIGN_CENTER, GFont::YALIGN_CENTER);
+    renderDevice->pop2D();
+
+    // Force update so that we can see the message
+    renderDevice->swapBuffers();
 }
 
 
