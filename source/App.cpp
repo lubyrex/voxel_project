@@ -305,21 +305,22 @@ void App::culling(G3D::ParseVOX s) {
     for (const Vector3& position : vertexArray) {
         if (!vertexMap.containsKey(position)) {
             myfile.printf("v %f %f %f \n", position.x, position.z, position.y);
-            vertexMap.set(position, vertexMap.size());
+            vertexMap.set(position, int(vertexMap.size()));
         }
     }
     for (const Vector2& texture : textureCoords) {
 
         if (!textureMap.containsKey(texture)) {
             myfile.printf("vt %f %f \n", texture.x, texture.y);
-            textureMap.set(texture, textureMap.size());
+            textureMap.set(texture, int(textureMap.size()));
+           
         }
     }
     for (const Vector3& normal : normalArray) {
 
         if (!normalMap.containsKey(normal)) {
             myfile.printf("vn %f %f %f \n", normal.x,normal.z, normal.y);
-            normalMap.set(normal, normalMap.size());
+            normalMap.set(normal, int(normalMap.size()));
         }
     }
 
