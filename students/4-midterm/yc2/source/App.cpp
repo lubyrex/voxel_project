@@ -158,15 +158,29 @@ void App::saveMTL(G3D::ParseVOX s) {
     myfile.commit();
 }
 
-void App::culling(G3D::ParseVOX s) {
+
+void Mesh::addQuad(Vector3::Axis axis, const Point3& center, float sign, const Point2& texCoord) {
+    Vector3 normal = Vector3::zero();
+    normal[axis] = sign;
+
+    Vector3 uAxis;
+    Vector3 vAxis;
+    uAxis[(axis + 1) % 3] = 1;
+    vAxis[(axis + 2) % 3] = 1;
+
+    Point3 A = center + normal * 0.5f + uAxis * 0.5f - vAxis * 0.5f;
+    Point3 V = center + normal * 0.5f - uAxis * 0.5f - vAxis * 0.5f;
+    addQuad(...., normal);
+}
+
+
+void App::voxelToMesh(const ParseVOX& s, Mesh& mesh) {
     TextOutput myfile("../data-files/model/culling.obj");
     //hashtable for the voxels, int is just a random int.
     Table<int, int> texcoordtable;
     const Array<ParseVOX::Voxel>& voxelarray = s.voxel;
     //int l = voxelarray.length();
-    Array<Vector3> vertexArray;
-    Array<Vector2> textureCoords;
-    Array<Vector3> normalArray;
+
 
     Set<Point3uint8> occupied;
     for (const ParseVOX::Voxel& voxel : voxelarray) {
@@ -178,7 +192,15 @@ void App::culling(G3D::ParseVOX s) {
     for (const ParseVOX::Voxel& voxel : voxelarray) {
         Point3uint8 position = voxel.position;
         Vector3 vecposition(position.x, position.y, position.z);
+
+
+
         if (!occupied.contains(position + Vector3uint8(1, 0, 0))) {
+            Vector3::Axis axis = Vector3::X_AXIS;
+            float sign = +1;
+            addQuad(axis, position, sign, ...);
+
+            /*
             const int n = vertexArray.size();
 
             vertexArray.append(vecposition + Vector3(1, 0, 0), vecposition + Vector3(1, 1, 0), vecposition + Vector3(1, 1, 1), vecposition + Vector3(1, 0, 1));
@@ -194,7 +216,7 @@ void App::culling(G3D::ParseVOX s) {
 
                 //normalArray.append(Vector3(1, 0, 0));
             }
-
+            */
         }
         if (!occupied.contains(position + Vector3uint8(-1, 0, 0))) {
             const int n = vertexArray.size();
