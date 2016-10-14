@@ -295,7 +295,7 @@ void App::culling(G3D::ParseVOX s) {
     }
     Welder::Settings settings;
     Welder::weld(vertexArray, textureCoords, normalArray, indexArray, settings);
-    myfile.printf("\n# material\n mtllib culling.mtl\n usemtl palette \n");
+    myfile.printf("\n# material\nmtllib culling.mtl\nusemtl palette \n");
 
 
     //MAP vertex,normal,texture, to reduce redundant values
@@ -559,14 +559,15 @@ void App::makeGUI() {
     pane->addButton("Generate", [this]() {
         try {
             message("loading");
-            ArticulatedModel::clearCache();
+            
             BinaryInput voxInput(m_filesource, G3D_LITTLE_ENDIAN);
             ParseVOX s;
             s.parse(voxInput);
+            
+            culling(s);
             savePNG(s);
             saveMTL(s);
-            culling(s);
-            
+            ArticulatedModel::clearCache();
             loadScene(
                 developerWindow->sceneEditorWindow->selectedSceneName()
             );
