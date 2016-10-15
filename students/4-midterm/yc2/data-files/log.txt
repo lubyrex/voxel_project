@@ -1,13 +1,13 @@
 Application Log
-Start: Fri Oct 14 07:02:26 2016
+Start: Sat Oct 15 01:43:32 2016
 
 WARNING: AudioDevice is not enabled. Set G3DSpecification::audio = true before invoking initGLG3D() to enable audio.
-Initializing System::findDataFile took 0.003254s
+Initializing System::findDataFile took 0.003145s
 
 Entering GApp::GApp()
 cwd = C:\cs371\yc2\data-files
 System::setAppDataDir("C:\cs371\yc2\data-files")
-Initializing System::findDataFile took 0.001840s
+Initializing System::findDataFile took 0.001578s
 Setting video mode
 wglSwapIntervalEXT(1);
 Setting initial rendering state.
@@ -606,21 +606,21 @@ Found scenes:
   "G3D Sports Car (White)" (c:\g3d\data10\research/scene/sportsCarWhite.Scene.Any)
   "G3D Transparency Test" (c:\g3d\data10\research/scene/transparencyTest.Scene.Any)
   "G3D Triangle" (c:\g3d\data10\research/scene/triangle.Scene.Any)
+НээээЭЭЭ-®7
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
 НээээЭЭ
-НээээЭЭЭ‰¦pN
-НээээЭЭЭ)¦РN
-НээээЭЭЭ¦иN
+НээээЭЭ
 Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-НээээЭЭЭќ.ЅO"
-НээээЭЭЭх.…Ol	
 Vertex info
 -----------
 1(42) : warning C7050: "tex0" might be used before being initialized
@@ -630,27 +630,21 @@ Fragment info
 1(30) : warning C7050: "surfel.shadingNormal" might be used before being initialized
 1(30) : warning C7050: "surfel.glossyShadingNormal" might be used before being initialized
 
-Нээээ
-НээээЭЭЭЏ	N
-НээээЭЭЭїyNъ
-Saved ../journal/2016-10-14_003_starter_r1655_g3d_r875__.jpg
-Saved ../journal/2016-10-14_003_starter_r1655_g3d_r875__.jpg
+НээээЭЭЭ7jx5Э
 _____________________________________________________
 
     ###    Files Used    ###
 
-C:/Users/Win2Go/.dnx
 C:/cs371/yc2/data-files/.
-C:/cs371/yc2/data-files/..
 C:/cs371/yc2/data-files/../data-files/model/culling.mtl
 C:/cs371/yc2/data-files/../data-files/model/culling.obj
-C:/cs371/yc2/data-files/../journal/journal.md.html
 C:/cs371/yc2/data-files/./test.Scene.Any
 C:/cs371/yc2/data-files/chr_knight.vox
 C:/cs371/yc2/data-files/log.txt
 C:/cs371/yc2/data-files/model/culling.mtl
 C:/cs371/yc2/data-files/model/culling.obj
 C:/cs371/yc2/data-files/model/culling.png
+C:/cs371/yc2/data-files/monu1.vox
 c:/g3d/G3D10/build/data/scene/CornellBox-empty-cyan-orange.Scene.Any
 c:/g3d/G3D10/build/data/scene/CornellBox-glossy.Scene.Any
 c:/g3d/G3D10/build/data/scene/CornellBox-mirror.Scene.Any
@@ -732,8 +726,6 @@ c:/g3d/G3D10/data-files/shader/GFont/GFont_render.vrt
 c:/g3d/G3D10/data-files/shader/GFont/GFont_render.vrt
 c:/g3d/G3D10/data-files/shader/GaussianBlur/GaussianBlur_apply.pix
 c:/g3d/G3D10/data-files/shader/GaussianBlur/GaussianBlur_apply.pix
-c:/g3d/G3D10/data-files/shader/GuiTextureBox/GuiTextureBox_2D.pix
-c:/g3d/G3D10/data-files/shader/GuiTextureBox/GuiTextureBox_2D.pix
 c:/g3d/G3D10/data-files/shader/GuiTheme/GuiTheme_render.pix
 c:/g3d/G3D10/data-files/shader/GuiTheme/GuiTheme_render.pix
 c:/g3d/G3D10/data-files/shader/GuiTheme/GuiTheme_render.vrt

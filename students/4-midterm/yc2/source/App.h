@@ -7,19 +7,6 @@
 #pragma once
 #include <G3D/G3DAll.h>
 
-class Mesh {
-public:
-    Array<Vector3> vertexArray;
-    Array<Vector2> textureCoords;
-    Array<Vector3> normalArray;
-    Array<int>     indexArray;
-
-    void initFromVoxels(const ParseVOX& voxelGrid);
-    void addQuad(Vector3::Axis axis, const Point3& center, float sign, const Point2& texCoord);
-    void addQuad(const Point3& A, const Point3& B, const Point3& C, const Vector3& n, const Point2& texCoord);
-    void weldVertices();
-    void saveToOBJ();
-};
 
 /** \brief Application framework. */
 class App : public GApp {
@@ -52,7 +39,7 @@ public:
     virtual void onUserInput(UserInput* ui) override;
     virtual void onCleanup() override;
     //virtual void testMesh( G3D::ParseVOX );
-    virtual void culling( G3D::ParseVOX );
+    //virtual void voxelToMesh( const ParseVOX& s );
     /*virtual void culling2(G3D::ParseVOX);*/
     virtual void savePNG(G3D::ParseVOX);
     virtual void saveMTL(G3D::ParseVOX);
