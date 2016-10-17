@@ -2,6 +2,10 @@
                  **Development Journal**
 
 
+2016-10-16: Problem: scene not updating the png file
+============================================================
+When I attempt to load the scene, it uses the previous png file to fill in the color. To reproduce the problem, just load two VOX files with different palettes and the second one will end up using the same palette as the first one. I attempted to move around the clear cache method, but that doesn't work. If I load other scenes, and then reload the test scene, the problem is gone.
+
 2016-10-15: Did Morgan's modifications of the code
 =============================================================
 Spent around 2 hours to move all the code for Meshes into a new class Mesh.cpp. And used a slightly simpler version of the code. However the color still doesn't update correctly.
