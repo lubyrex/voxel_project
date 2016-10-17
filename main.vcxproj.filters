@@ -27,18 +27,6 @@
     </None>
     <None Include="journal\journal.md.html" />
     <None Include="doc-files\report.md.html" />
-    <None Include="data-files\chr_jp.vox">
-      <Filter>data-files</Filter>
-    </None>
-    <None Include="data-files\chr_knight.vox">
-      <Filter>data-files</Filter>
-    </None>
-    <None Include="data-files\monu0.vox">
-      <Filter>data-files</Filter>
-    </None>
-    <None Include="data-files\monu1.vox">
-      <Filter>data-files</Filter>
-    </None>
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
