@@ -1,13 +1,13 @@
 Application Log
-Start: Sat Oct 15 01:43:32 2016
+Start: Sun Oct 16 19:24:50 2016
 
 WARNING: AudioDevice is not enabled. Set G3DSpecification::audio = true before invoking initGLG3D() to enable audio.
-Initializing System::findDataFile took 0.003145s
+Initializing System::findDataFile took 0.003495s
 
 Entering GApp::GApp()
 cwd = C:\cs371\yc2\data-files
 System::setAppDataDir("C:\cs371\yc2\data-files")
-Initializing System::findDataFile took 0.001578s
+Initializing System::findDataFile took 0.001606s
 Setting video mode
 wglSwapIntervalEXT(1);
 Setting initial rendering state.
@@ -561,7 +561,7 @@ System = {
         Adapter0 ={ 
             hostname = "WIN-VB9QI741N16;"
             name = ";"
-            ip = "137.165. 28.230"; 
+            ip = "137.165. 28.118"; 
             subnet = "  0.  0.255.255"; 
             broadcast = "255.255.255.255"; 
             mac = "00:00:00:00:00:00"; 
@@ -606,21 +606,21 @@ Found scenes:
   "G3D Sports Car (White)" (c:\g3d\data10\research/scene/sportsCarWhite.Scene.Any)
   "G3D Transparency Test" (c:\g3d\data10\research/scene/transparencyTest.Scene.Any)
   "G3D Triangle" (c:\g3d\data10\research/scene/triangle.Scene.Any)
-НээээЭЭЭ-®7
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
+НээээЭЭЭ2їх
+НээээЭЭЭbOх
 НээээЭЭ
-НээээЭЭ
+НээээЭЭЭ6ѓх
+НээээЭЭЭjWх
 Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+НээээЭЭЭиHRцщ
+НээээЭ
+НээээЭЭЭ<Bцю
 Vertex info
 -----------
 1(42) : warning C7050: "tex0" might be used before being initialized
@@ -630,7 +630,7 @@ Fragment info
 1(30) : warning C7050: "surfel.shadingNormal" might be used before being initialized
 1(30) : warning C7050: "surfel.glossyShadingNormal" might be used before being initialized
 
-НээээЭЭЭ7jx5Э
+Нээээ
 _____________________________________________________
 
     ###    Files Used    ###

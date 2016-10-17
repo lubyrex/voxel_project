@@ -93,6 +93,17 @@ void App::onInit() {
 
 
 
+//void App::savePNG(G3D::ParseVOX s) {
+//    //shared_ptr<Image4unorm8> image(Image4unorm8::createEmpty(256, 1));
+//    
+//    Image4unorm8::fromArray(s.palette,256,1)->save("../data-files/model/culling.png");
+//    /*for (int i = 0; i < 256; ++i) {
+//        image->set(G3D::Point2int32(i, 0), s.palette[i + 1]);
+//    }*/
+//    //image->convert(ImageFormat::RGB8());
+//    //image->save("../data-files/model/culling.png");
+//}
+
 void App::savePNG(G3D::ParseVOX s) {
     shared_ptr<Image> image(Image::create(256, 1, ImageFormat::RGB32F()));
     for (int i = 0; i < 256; ++i) {

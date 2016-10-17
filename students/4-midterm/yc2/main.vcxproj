@@ -98,10 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="data-files\chr_jp.vox" />
-    <None Include="data-files\chr_knight.vox" />
-    <None Include="data-files\monu0.vox" />
-    <None Include="data-files\monu1.vox" />
     <None Include="data-files\test.Scene.Any" />
     <None Include="doc-files\report.md.html" />
     <None Include="Doxyfile" />
