@@ -1,13 +1,13 @@
 Application Log
-Start: Sun Oct 16 19:24:50 2016
+Start: Sun Oct 16 20:31:36 2016
 
 WARNING: AudioDevice is not enabled. Set G3DSpecification::audio = true before invoking initGLG3D() to enable audio.
-Initializing System::findDataFile took 0.003495s
+Initializing System::findDataFile took 0.003051s
 
 Entering GApp::GApp()
 cwd = C:\cs371\yc2\data-files
 System::setAppDataDir("C:\cs371\yc2\data-files")
-Initializing System::findDataFile took 0.001606s
+Initializing System::findDataFile took 0.001684s
 Setting video mode
 wglSwapIntervalEXT(1);
 Setting initial rendering state.
@@ -606,31 +606,77 @@ Found scenes:
   "G3D Sports Car (White)" (c:\g3d\data10\research/scene/sportsCarWhite.Scene.Any)
   "G3D Transparency Test" (c:\g3d\data10\research/scene/transparencyTest.Scene.Any)
   "G3D Triangle" (c:\g3d\data10\research/scene/triangle.Scene.Any)
-НээээЭЭЭ2їх
-НээээЭЭЭbOх
-НээээЭЭ
-НээээЭЭЭ6ѓх
-НээээЭЭЭjWх
+НээээЭЭЭ6+й
+НээээЭЭЭО+уй
 Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-Нээээ
-НээээЭЭЭиHRцщ
 НээээЭ
-НээээЭЭЭ<Bцю
 Vertex info
 -----------
 1(42) : warning C7050: "tex0" might be used before being initialized
 
+НээээЭЭЭ‡i л
+Нээээ
+Нээээ
+Нээээ
 Fragment info
 -------------
 1(30) : warning C7050: "surfel.shadingNormal" might be used before being initialized
 1(30) : warning C7050: "surfel.glossyShadingNormal" might be used before being initialized
 
 Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+Нээээ
+BSPMap reports missing texture #1: "noshader"
+BSPMap reports missing texture #2: "textures/atcs/skybox_s"
+BSPMap reports missing texture #20: "textures/atcs/eq2lt_bmtl03light_300"
+BSPMap reports missing texture #26: "textures/atcs/eq2lt_baselt03b_s_1500"
+BSPMap reports missing texture #36: "textures/atcs/eq2_baselt03_blue_s_3000"
+BSPMap reports missing texture #37: "textures/atcs/eq2lt_baselt03b_blue_s_2000"
+BSPMap reports missing texture #38: "textures/atcs/eq2_baselt03_blue_s_5000"
+BSPMap reports missing texture #39: "textures/atcs/cubelight_32_red_s_20k"
+BSPMap reports missing texture #41: "textures/atcs/eq2lt_baselt03b_blue_s_1500"
+BSPMap reports missing texture #56: "textures/atcs/eq2lt_baselt03b_blue_s_3000"
+BSPMap reports missing texture #57: "textures/atcs/cubelight_32_blue_s_10k"
+НээээЭЭЭ"Lк
+k
+НээээЭЭЭ¦KђкtL
+НээээЭЭЭRLДкuW
+НээээЭЭЭюKЁкdB
+НээээЭЭЭЋKёк F
+Vertex info
+-----------
+1(42) : warning C7050: "tex0" might be used before being initialized
+
+НээээЭЭЭВLtк"s
+Vertex info
+-----------
+1(42) : warning C7050: "tex0" might be used before being initialized
+
+НээээЭЭЭОLxкrv
+НээээЭЭЭКL|кdu
+НээээЭЭЭL4кec
+НээээЭЭЭКL|кdu
+Fragment info
+-------------
+1(30) : warning C7050: "surfel.shadingNormal" might be used before being initialized
+1(30) : warning C7050: "surfel.glossyShadingNormal" might be used before being initialized
+
+НээээЭЭЭ
+L<к,e
+НээээЭЭЭЪLLкy
+НээээЭЭЭѕKикR
+НээээЭЭЭ"Lк
+k
+НээээЭЭЭL8кdf
+НээээЭЭЭ:Llкuq
+НээээЭЭЭєKмкrQ
+НээээЭЭЭ†K°к
+D
+НээээЭЭЭўK”к0K
 _____________________________________________________
 
     ###    Files Used    ###
@@ -639,11 +685,12 @@ C:/cs371/yc2/data-files/.
 C:/cs371/yc2/data-files/../data-files/model/culling.mtl
 C:/cs371/yc2/data-files/../data-files/model/culling.obj
 C:/cs371/yc2/data-files/./test.Scene.Any
-C:/cs371/yc2/data-files/chr_knight.vox
 C:/cs371/yc2/data-files/log.txt
+C:/cs371/yc2/data-files/model/atcs/atcs.pk3
 C:/cs371/yc2/data-files/model/culling.mtl
 C:/cs371/yc2/data-files/model/culling.obj
 C:/cs371/yc2/data-files/model/culling.png
+C:/cs371/yc2/data-files/model/model/atcs/atcs.pk3
 C:/cs371/yc2/data-files/monu1.vox
 c:/g3d/G3D10/build/data/scene/CornellBox-empty-cyan-orange.Scene.Any
 c:/g3d/G3D10/build/data/scene/CornellBox-glossy.Scene.Any
@@ -677,9 +724,13 @@ c:/g3d/G3D10/data-files/font/arial.fnt
 c:/g3d/G3D10/data-files/font/console-small.fnt
 c:/g3d/G3D10/data-files/font/greek.fnt
 c:/g3d/G3D10/data-files/font/icon.fnt
+c:/g3d/G3D10/data-files/font/model/atcs/atcs.pk3
+c:/g3d/G3D10/data-files/gui/model/atcs/atcs.pk3
 c:/g3d/G3D10/data-files/gui/osx-10.7.gtm
 c:/g3d/G3D10/data-files/icon/G3D-64.png
+c:/g3d/G3D10/data-files/icon/model/atcs/atcs.pk3
 c:/g3d/G3D10/data-files/icon/tango.icn
+c:/g3d/G3D10/data-files/model/atcs/atcs.pk3
 c:/g3d/G3D10/data-files/shader/AlphaFilter.glsl
 c:/g3d/G3D10/data-files/shader/AlphaFilter.glsl
 c:/g3d/G3D10/data-files/shader/AmbientOcclusion/AmbientOcclusion_AO.pix
@@ -702,6 +753,8 @@ c:/g3d/G3D10/data-files/shader/AmbientOcclusion/AmbientOcclusion_reconstructCSZ.
 c:/g3d/G3D10/data-files/shader/AmbientOcclusion/AmbientOcclusion_reconstructCSZ.pix
 c:/g3d/G3D10/data-files/shader/AmbientOcclusion/AmbientOcclusion_reconstructCSZ.vrt
 c:/g3d/G3D10/data-files/shader/AmbientOcclusion/AmbientOcclusion_reconstructCSZ.vrt
+c:/g3d/G3D10/data-files/shader/ArticulatedModel/ArticulatedModel_blitShader.pix
+c:/g3d/G3D10/data-files/shader/ArticulatedModel/ArticulatedModel_blitShader.pix
 c:/g3d/G3D10/data-files/shader/BumpMap/BumpMap.glsl
 c:/g3d/G3D10/data-files/shader/BumpMap/BumpMap.glsl
 c:/g3d/G3D10/data-files/shader/Camera/Camera.glsl
@@ -710,6 +763,12 @@ c:/g3d/G3D10/data-files/shader/DefaultRenderer/DefaultRenderer_OIT_writePixel.gl
 c:/g3d/G3D10/data-files/shader/DefaultRenderer/DefaultRenderer_OIT_writePixel.glsl
 c:/g3d/G3D10/data-files/shader/DefaultRenderer/DefaultRenderer_deferredShade.pix
 c:/g3d/G3D10/data-files/shader/DefaultRenderer/DefaultRenderer_deferredShade.pix
+c:/g3d/G3D10/data-files/shader/DepthOfField/DepthOfField_blur.pix
+c:/g3d/G3D10/data-files/shader/DepthOfField/DepthOfField_blur.pix
+c:/g3d/G3D10/data-files/shader/DepthOfField/DepthOfField_circleOfConfusion.pix
+c:/g3d/G3D10/data-files/shader/DepthOfField/DepthOfField_circleOfConfusion.pix
+c:/g3d/G3D10/data-files/shader/DepthOfField/DepthOfField_composite.pix
+c:/g3d/G3D10/data-files/shader/DepthOfField/DepthOfField_composite.pix
 c:/g3d/G3D10/data-files/shader/Film/Film_FXAA_310.pix
 c:/g3d/G3D10/data-files/shader/Film/Film_FXAA_310.pix
 c:/g3d/G3D10/data-files/shader/Film/Film_bloomExpose.pix
@@ -736,6 +795,14 @@ c:/g3d/G3D10/data-files/shader/LightingEnvironment/LightingEnvironment_LightUnif
 c:/g3d/G3D10/data-files/shader/LightingEnvironment/LightingEnvironment_LightUniforms.glsl
 c:/g3d/G3D10/data-files/shader/LightingEnvironment/LightingEnvironment_environmentMapUniforms.glsl
 c:/g3d/G3D10/data-files/shader/LightingEnvironment/LightingEnvironment_environmentMapUniforms.glsl
+c:/g3d/G3D10/data-files/shader/LightingEnvironment/LightingEnvironment_uniforms.glsl
+c:/g3d/G3D10/data-files/shader/LightingEnvironment/LightingEnvironment_uniforms.glsl
+c:/g3d/G3D10/data-files/shader/MotionBlur/MotionBlur_gather.pix
+c:/g3d/G3D10/data-files/shader/MotionBlur/MotionBlur_gather.pix
+c:/g3d/G3D10/data-files/shader/MotionBlur/MotionBlur_neighborMinMax.pix
+c:/g3d/G3D10/data-files/shader/MotionBlur/MotionBlur_neighborMinMax.pix
+c:/g3d/G3D10/data-files/shader/MotionBlur/MotionBlur_tileMinMax.pix
+c:/g3d/G3D10/data-files/shader/MotionBlur/MotionBlur_tileMinMax.pix
 c:/g3d/G3D10/data-files/shader/SkyboxSurface/SkyboxSurface_gbuffer.pix
 c:/g3d/G3D10/data-files/shader/SkyboxSurface/SkyboxSurface_gbuffer.pix
 c:/g3d/G3D10/data-files/shader/SkyboxSurface/SkyboxSurface_gbuffer.vrt
@@ -746,6 +813,8 @@ c:/g3d/G3D10/data-files/shader/SkyboxSurface/SkyboxSurface_render.vrt
 c:/g3d/G3D10/data-files/shader/SkyboxSurface/SkyboxSurface_render.vrt
 c:/g3d/G3D10/data-files/shader/Texture/Texture.glsl
 c:/g3d/G3D10/data-files/shader/Texture/Texture.glsl
+c:/g3d/G3D10/data-files/shader/Texture/Texture_copy.pix
+c:/g3d/G3D10/data-files/shader/Texture/Texture_copy.pix
 c:/g3d/G3D10/data-files/shader/UniversalMaterial/UniversalMaterial.glsl
 c:/g3d/G3D10/data-files/shader/UniversalMaterial/UniversalMaterial.glsl
 c:/g3d/G3D10/data-files/shader/UniversalMaterial/UniversalMaterial_sample.glsl
@@ -760,6 +829,10 @@ c:/g3d/G3D10/data-files/shader/UniversalSurface/UniversalSurface_gbuffer.pix
 c:/g3d/G3D10/data-files/shader/UniversalSurface/UniversalSurface_gbuffer.pix
 c:/g3d/G3D10/data-files/shader/UniversalSurface/UniversalSurface_gbuffer.vrt
 c:/g3d/G3D10/data-files/shader/UniversalSurface/UniversalSurface_gbuffer.vrt
+c:/g3d/G3D10/data-files/shader/UniversalSurface/UniversalSurface_render.pix
+c:/g3d/G3D10/data-files/shader/UniversalSurface/UniversalSurface_render.pix
+c:/g3d/G3D10/data-files/shader/UniversalSurface/UniversalSurface_render.vrt
+c:/g3d/G3D10/data-files/shader/UniversalSurface/UniversalSurface_render.vrt
 c:/g3d/G3D10/data-files/shader/UniversalSurface/UniversalSurface_vertex.glsl
 c:/g3d/G3D10/data-files/shader/UniversalSurface/UniversalSurface_vertex.glsl
 c:/g3d/G3D10/data-files/shader/UniversalSurface/UniversalSurface_vertexHelpers.glsl
@@ -774,6 +847,7 @@ c:/g3d/G3D10/data-files/shader/g3dmath.glsl
 c:/g3d/G3D10/data-files/shader/g3dmath.glsl
 c:/g3d/G3D10/data-files/shader/lightMap.glsl
 c:/g3d/G3D10/data-files/shader/lightMap.glsl
+c:/g3d/G3D10/data-files/shader/model/atcs/atcs.pk3
 c:/g3d/G3D10/data-files/shader/octahedral.glsl
 c:/g3d/G3D10/data-files/shader/octahedral.glsl
 c:/g3d/G3D10/data-files/shader/reconstructFromDepth.glsl
@@ -782,6 +856,7 @@ c:/g3d/G3D10/data-files/shader/unlit.pix
 c:/g3d/G3D10/data-files/shader/unlit.pix
 c:/g3d/G3D10/data-files/shader/unlit.vrt
 c:/g3d/G3D10/data-files/shader/unlit.vrt
+c:/g3d/data10/common/cubemap/model/atcs/atcs.pk3
 c:/g3d/data10/common/cubemap/noonclouds/noonclouds_bk.png
 c:/g3d/data10/common/cubemap/noonclouds/noonclouds_dn.png
 c:/g3d/data10/common/cubemap/noonclouds/noonclouds_ft.png
@@ -794,14 +869,21 @@ c:/g3d/data10/common/cubemap/uffizi/uffizi+z.jpg
 c:/g3d/data10/common/cubemap/uffizi/uffizi-x.jpg
 c:/g3d/data10/common/cubemap/uffizi/uffizi-y.jpg
 c:/g3d/data10/common/cubemap/uffizi/uffizi-z.jpg
+c:/g3d/data10/common/font/model/atcs/atcs.pk3
+c:/g3d/data10/common/icon/model/atcs/atcs.pk3
+c:/g3d/data10/common/ifs/model/atcs/atcs.pk3
 c:/g3d/data10/common/ifs/square.ifs
+c:/g3d/data10/common/image/model/atcs/atcs.pk3
 c:/g3d/data10/common/material/blackrubber/blackrubber.UniversalMaterial.Any
 c:/g3d/data10/common/material/chrome/chrome.UniversalMaterial.Any
 c:/g3d/data10/common/material/metalcrate/metalcrate.UniversalMaterial.Any
+c:/g3d/data10/common/material/model/atcs/atcs.pk3
 c:/g3d/data10/common/material/oldgirder/oldgirder.UniversalMaterial.Any
 c:/g3d/data10/common/material/rustymetal/rustymetal.UniversalMaterial.Any
 c:/g3d/data10/common/material/sand/sand.UniversalMaterial.Any
+c:/g3d/data10/common/model/atcs/atcs.pk3
 c:/g3d/data10/common/model/holodeck/holodeck.ArticulatedModel.Any
+c:/g3d/data10/common/model/model/atcs/atcs.pk3
 c:/g3d/data10/common/model/truckwheel/truckwheel.ArticulatedModel.Any
 c:/g3d/data10/common/scene/CornellBox-empty-cyan-orange.Scene.Any
 c:/g3d/data10/common/scene/CornellBox-glossy.Scene.Any
@@ -811,12 +893,71 @@ c:/g3d/data10/common/scene/CornellBox-water.Scene.Any
 c:/g3d/data10/common/scene/CornellBox.Scene.Any
 c:/g3d/data10/common/scene/featureTest.Scene.Any
 c:/g3d/data10/common/scene/holodeck.Scene.Any
+c:/g3d/data10/common/scene/model/atcs/atcs.pk3
 c:/g3d/data10/common/scene/sponza.Scene.Any
 c:/g3d/data10/common/scene/sponzaWhite.Scene.Any
 c:/g3d/data10/common/scene/whiteroom.Scene.Any
+c:/g3d/data10/game/model/atcs/atcs.pk3
+c:/g3d/data10/game/model/atcs/atcs.pk3
+c:/g3d/data10/game/model/atcs/atcs.pk3/maps/atcs.bsp
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/bulb_red_s.tga
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/cubelight_32_blue_s_15k.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/cubelight_32_blue_s_20k.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/cubelight_32_red_s_10k.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/cubelight_32_red_s_15k.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/cubelight_32_white_s_20k.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bigmet_01.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_01.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_02.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_02_384.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_02_384b.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_02up.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_03.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_03_blue.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_03_red.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_04.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_05.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_08.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_bounce.tga
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_fbase.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_fgrate_01.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_floor_04.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_floor_05.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_floor_06b.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_grate_01.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_stepside_01.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trim_02.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimh_01.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimh_03c.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimh_03cc.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_00.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_01b.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_02.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_04.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_05.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_05b.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_09b.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_10b.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_11.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_11d.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_11d_blue.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_11d_red.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_12b.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_mini.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_mini02.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_mini02b.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/force_field_s.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/rockground.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/atcs/rust_2.jpg
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/common/caulk.tga
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/common/clip.tga
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/common/slick.tga
+c:/g3d/data10/game/model/atcs/atcs.pk3/textures/common/trigger.tga
 c:/g3d/data10/game/model/viper/viper.ArticulatedModel.Any
 c:/g3d/data10/game/scene/atcs.Scene.Any
 c:/g3d/data10/game/scene/beta.Scene.Any
+c:/g3d/data10/game/scene/model/atcs/atcs.pk3
 c:/g3d/data10/research/model/sportsCar/sportsCar.ArticulatedModel.Any
 c:/g3d/data10/research/scene/cubemap.Scene.Any
 c:/g3d/data10/research/scene/heightfield.Scene.Any

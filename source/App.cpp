@@ -75,11 +75,11 @@ void App::onInit() {
     developerWindow->cameraControlWindow->moveTo(Point2(developerWindow->cameraControlWindow->rect().x0(), 0));
 
 
-    //loadScene(
-    //    //"G3D Sponza"
-    //    "Test Scene" // Load something simple
-    //    //developerWindow->sceneEditorWindow->selectedSceneName()  // Load the first scene encountered 
-    //);
+    loadScene(
+        //"G3D Sponza"
+        "Test Scene" // Load something simple
+        //developerWindow->sceneEditorWindow->selectedSceneName()  // Load the first scene encountered 
+    );
 
 
     /* shared_ptr<ArticulatedModel> test;
@@ -93,22 +93,14 @@ void App::onInit() {
 
 
 
-//void App::savePNG(G3D::ParseVOX s) {
-//    //shared_ptr<Image4unorm8> image(Image4unorm8::createEmpty(256, 1));
-//    
-//    Image4unorm8::fromArray(s.palette,256,1)->save("../data-files/model/culling.png");
-//    /*for (int i = 0; i < 256; ++i) {
-//        image->set(G3D::Point2int32(i, 0), s.palette[i + 1]);
-//    }*/
-//    //image->convert(ImageFormat::RGB8());
-//    //image->save("../data-files/model/culling.png");
-//}
+
 
 void App::savePNG(G3D::ParseVOX s) {
     shared_ptr<Image> image(Image::create(256, 1, ImageFormat::RGB32F()));
-    for (int i = 0; i < 256; ++i) {
-        image->set(G3D::Point2int32(i, 0), s.palette[i + 1]);
+    for (int i = 0; i < 255; ++i) {
+        image->set(Point2int32(i, 0), s.palette[i + 1]);
     }
+    image->set(Point2int32(255,0),s.palette[0]);
     image->convert(ImageFormat::RGB8());
     image->save("../data-files/model/culling.png");
 }
@@ -174,10 +166,11 @@ void App::makeGUI() {
             s.parse(voxInput);
             
             Mesh mesh;
-            mesh.initFromVoxels(s);
+            
             savePNG(s);
             saveMTL(s);
             ArticulatedModel::clearCache();
+            mesh.initFromVoxels(s);
             loadScene(
                 developerWindow->sceneEditorWindow->selectedSceneName()
             );
@@ -238,7 +231,8 @@ void App::onGraphics3D(RenderDevice* rd, Array<shared_ptr<Surface> >& allSurface
         // Call to make the App show the output of debugDraw(...)
         rd->setProjectionAndCameraMatrix(activeCamera()->projection(), activeCamera()->frame());
         drawDebugShapes();
-        const shared_ptr<Entity>& selectedEntity = (notNull(developerWindow) && notNull(developerWindow->sceneEditorWindow)) ? developerWindow->sceneEditorWindow->selectedEntity() : shared_ptr<Entity>();
+        
+        shared_ptr<Entity>& selectedEntity = (notNull(developerWindow) && notNull(developerWindow->sceneEditorWindow)) ? developerWindow->sceneEditorWindow->selectedEntity() : shared_ptr<Entity>();
         scene()->visualize(rd, selectedEntity, allSurfaces, sceneVisualizationSettings(), activeCamera());
 
         // Post-process special effects
