@@ -75,11 +75,11 @@ void App::onInit() {
     developerWindow->cameraControlWindow->moveTo(Point2(developerWindow->cameraControlWindow->rect().x0(), 0));
 
 
-    loadScene(
-        //"G3D Sponza"
-        "Test Scene" // Load something simple
-        //developerWindow->sceneEditorWindow->selectedSceneName()  // Load the first scene encountered 
-    );
+    //loadScene(
+    //    //"G3D Sponza"
+    //    "Test Scene" // Load something simple
+    //    //developerWindow->sceneEditorWindow->selectedSceneName()  // Load the first scene encountered 
+    //);
 
 
     /* shared_ptr<ArticulatedModel> test;
@@ -102,19 +102,19 @@ void App::savePNG(G3D::ParseVOX s) {
     }
     image->set(Point2int32(255,0),s.palette[0]);
     image->convert(ImageFormat::RGB8());
-    image->save("../data-files/model/culling.png");
+    image->save("../data-files/model/"+m_outputName+".png");
 }
 
 
 void App::saveMTL(G3D::ParseVOX s) {
-    TextOutput myfile("../data-files/model/culling.mtl");
+    TextOutput myfile("../data-files/model/"+m_outputName+".mtl");
     myfile.printf("newmtl palette \n");
     //don't know what this means
     /*myfile.printf("illium \n");*/
     myfile.printf("Ka 1.000 1.000 1.000 \n");
     myfile.printf("Kd 1.000 1.000 1.000 \n");
     myfile.printf("Ks 0.000 0.000 0.000 \n");
-    myfile.printf("map_Kd culling.png");
+    myfile.printf("map_Kd "+m_outputName+".png");
     myfile.commit();
 }
 
@@ -148,8 +148,8 @@ void App::makeGUI() {
     //resolution.append("1x1", "320x200", "640x400");
     //pane->addDropDownList("resolution", resolution, &m_indexPointer);
 
-    pane->addCheckBox("remove excess voxels", &m_remove_voxels);
-    pane->addCheckBox("remove excess surfaces", &m_remove_surfaces);
+   
+    pane->addTextBox("Output Name", &m_outputName);
     pane->beginRow(); {
         pane->addTextBox("Input VOX", &m_filesource)->setWidth(210);
         pane->addButton("...", [this]() {
@@ -160,7 +160,7 @@ void App::makeGUI() {
     pane->addButton("Generate", [this]() {
         try {
             message("loading");
-            
+            //m_outputName=(String)m_filesource.substr(0,m_filesource.length()-4);
             BinaryInput voxInput(m_filesource, G3D_LITTLE_ENDIAN);
             ParseVOX s;
             s.parse(voxInput);
@@ -169,11 +169,13 @@ void App::makeGUI() {
             
             savePNG(s);
             saveMTL(s);
+            
             ArticulatedModel::clearCache();
-            mesh.initFromVoxels(s);
-            loadScene(
+            UniversalMaterial::clearCache();
+            mesh.initFromVoxels(s,m_outputName);
+            /*loadScene(
                 developerWindow->sceneEditorWindow->selectedSceneName()
-            );
+            );*/
         }
         catch (...) {
             msgBox("Unable to load the image.", m_filesource);
