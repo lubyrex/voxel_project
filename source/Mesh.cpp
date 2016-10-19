@@ -3,7 +3,7 @@
 #include "Mesh.h"
 
 
-void Mesh::initFromVoxels(const ParseVOX& voxelGrid){
+void Mesh::initFromVoxels(const ParseVOX& voxelGrid, String m_outputName){
     
     Table<int, int> texcoordtable;
     const Array<ParseVOX::Voxel>& voxelarray = voxelGrid.voxel;
@@ -50,8 +50,8 @@ void Mesh::initFromVoxels(const ParseVOX& voxelGrid){
         }
     }
     weldVertices();
-    TextOutput myfile("../data-files/model/culling.obj");
-    saveToOBJ(myfile);
+    TextOutput myfile("../data-files/model/"+m_outputName+".obj");
+    saveToOBJ(myfile,m_outputName);
 }
 
 void Mesh::addQuad(Vector3::Axis axis, const Point3& center, float sign, const Point2& texCoord) {
@@ -95,8 +95,8 @@ void Mesh::weldVertices(){
     Welder::weld(vertexArray, textureCoords, normalArray, indexArray, settings);
 }
 
-void Mesh::saveToOBJ(TextOutput myfile){
-    myfile.printf("\n# material\nmtllib culling.mtl\nusemtl palette \n");
+void Mesh::saveToOBJ(TextOutput myfile, String m_outputName){
+    myfile.printf("\n# material\nmtllib "+m_outputName+".mtl\nusemtl palette \n");
     Table<Vector3, int> vertexMap;
     Table<Vector3, int> normalMap;
     Table<Vector2, int> textureMap;

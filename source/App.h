@@ -14,13 +14,12 @@ protected:
 
     /** Called from onInit */
     void makeGUI();
-    bool m_remove_voxels = true;
-    bool m_remove_surfaces = true;
-    String m_filesource;
-    int m_resolutionChoice = 1;
+    
 
 public:
-    
+    String m_outputName = " ";
+    String m_filesource;
+    int m_resolutionChoice = 1;
     App(const GApp::Settings& settings = GApp::Settings());
 
     virtual void onInit() override;
