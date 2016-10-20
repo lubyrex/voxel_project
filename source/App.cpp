@@ -93,7 +93,7 @@ void App::onInit() {
 
 
 
-
+/**helper function that saves palettes to a PNG file from ParseVOX.*/
 
 void App::savePNG(G3D::ParseVOX s) {
     shared_ptr<Image> image(Image::create(256, 1, ImageFormat::RGB32F()));
@@ -105,6 +105,7 @@ void App::savePNG(G3D::ParseVOX s) {
     image->save("../data-files/model/"+m_outputName+".png");
 }
 
+/**helper function that saves an arbitrary MTL file that links palette and the OBJ file*/
 
 void App::saveMTL(G3D::ParseVOX s) {
     TextOutput myfile("../data-files/model/"+m_outputName+".mtl");

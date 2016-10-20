@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="data-files\custom.Scene.Any" />
     <None Include="data-files\test.Scene.Any" />
     <None Include="doc-files\report.md.html" />
     <None Include="Doxyfile" />

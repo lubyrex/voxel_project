@@ -2,7 +2,7 @@
 #include "App.h"
 #include "Mesh.h"
 
-
+/**starter function that takes in a ParseVOX and calls other methods to save it as an OBJ file.*/
 void Mesh::initFromVoxels(const ParseVOX& voxelGrid, String m_outputName){
     
     Table<int, int> texcoordtable;
@@ -54,6 +54,9 @@ void Mesh::initFromVoxels(const ParseVOX& voxelGrid, String m_outputName){
     saveToOBJ(myfile,m_outputName);
 }
 
+/**helper function that computes the 4 vertices of a face and the texture coordinates using the center coordinate of the voxel.
+Called from Mesh::initFromVoxels()*/
+
 void Mesh::addQuad(Vector3::Axis axis, const Point3& center, float sign, const Point2& texCoord) {
     Vector3 normal = Vector3::zero();
     normal[axis] = sign;
@@ -74,7 +77,8 @@ void Mesh::addQuad(Vector3::Axis axis, const Point3& center, float sign, const P
     }
 }
 
-//input is counter clockwise
+/**helper function that takes in 4 vertices of a face and updating indexArray,textureCoordinates and vertexArray.
+Called from Mesh::addQuad()*/
 void Mesh::addQuad(const Point3& A, const Point3& B, const Point3& C, const Point3& D,  const Point2& texCoord){
     const int size = vertexArray.size();
     vertexArray.append(A,B,C,D);
@@ -90,11 +94,15 @@ void Mesh::addQuad(const Point3& A, const Point3& B, const Point3& C, const Poin
             }
 }
 
+/**helper function that welds the vertices and updates vertexArray, textureCoords, normalArray, indexArray.
+Called from Mesh::initFromVoxels()*/
 void Mesh::weldVertices(){
     Welder::Settings settings;
     Welder::weld(vertexArray, textureCoords, normalArray, indexArray, settings);
 }
 
+/**helper function that saves to an OBJ file using vertexArray, textureCoords, normalArray, indexArray.
+Called from Mesh::initFromVoxels()*/
 void Mesh::saveToOBJ(TextOutput myfile, String m_outputName){
     myfile.printf("\n# material\nmtllib "+m_outputName+".mtl\nusemtl palette \n");
     Table<Vector3, int> vertexMap;
