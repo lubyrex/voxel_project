@@ -28,6 +28,9 @@
     <None Include="journal\journal.md.html" />
     <None Include="doc-files\report.md.html" />
     <None Include="ClassDiagram.cd" />
+    <None Include="data-files\custom.Scene.Any">
+      <Filter>Scene Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

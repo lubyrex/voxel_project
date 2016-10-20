@@ -1,37 +1,27 @@
 /** \file mainpage.dox \mainpage
 
-This is the main page of documentation for your project.  Edit
-`mainpage.dox` to change it.  For example, you might want to list the major features:
 
-- Does something
-- Does something else
+This is the main page of documentation for 4-midterm project. \n 
 
-and explain the most important functions and major classes in a table
-(the full list of classes is generated automatically for the "Classes"
-tab).
+Major feature:
 
- Entry Point | Description
- ------------|--------------------
-        App  | \copybrief App
+-Converting Magicavoxel file to OBJ file
 
-Doxygen will autotmatically extract documentation for your classes and methods and
-add them to these pages.
 
-This file and the comments in your may use any commands from the
-[Doxygen manual](http://www.stack.nl/~dimitri/doxygen/commands.html)
-and the custom commands:
 
-\verbatim
-\cite source
-\maintainer name
-\created date
-\edited date
-\units units
-\thumbnail{imagefilename}
-\thumbnail{imagefilename,caption}
-\video{videofilename,caption}
-\endverbatim
+ Entry Point       | Description
+ ------------------|--------------------
+        App        | \copybrief App
+        App::savePNG(G3D::ParseVOX s) | \copybrief App::savePNG(G3D::ParseVOX s)
+         App::saveMTL(G3D::ParseVOX s) |  \copybrief  App::saveMTL(G3D::ParseVOX s)
+Mesh::initFromVoxels(const ParseVOX& voxelGrid,String m_outputName)  | \copybrief Mesh::initFromVoxels
+Mesh::addQuad(Vector3::Axis axis, const Point3& center, float sign, const Point2& texCoord)     | \copybrief Mesh::addQuad(Vector3::Axis axis, const Point3& center, float sign, const Point2& texCoord)
+Mesh::addQuad(const Point3& A, const Point3& B, const Point3& C, const Point3& D,  const Point2& texCoord)   | \copybrief Mesh::addQuad(const Point3& A, const Point3& B, const Point3& C, const Point3& D,  const Point2& texCoord)
+Mesh::weldVertices() | \copybrief Mesh::weldVertices
+Mesh::saveToOBJ(TextOutput myfile,String m_outputName) | \copybrief Mesh::saveToOBJ
 
-See also your [Development Journal](../../journal/journal.md.html).
+
+See also [Development Journal](../../journal/journal.md.html)
+and [Report](../../doc-files/report.md.html).
 
 */

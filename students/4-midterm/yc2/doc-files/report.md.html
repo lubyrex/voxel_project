@@ -6,15 +6,120 @@
 
 
 
-Implementation Design
-============================================
+Teaser Image
+==========================================================
+
+
+
+Introduction
+==========================================================
+The program converts a MagicaVoxel file input into an OBJ file output by constructing naively-culled polygonal mesh.
+The program takes care of the duplicated vertices, normal vectors and texture coordinates, it also hides all surfaces that are not seen from outside of the object to save space. The program also generates a palette based on the input and produces a MTL file that links the palette with OBJ file.
+
+
+Specification
+===========================================================
+-The program should take in a MagicaVoxel file and using the coordinates and the indices of the palettes to output an OBJ files along with a material file in MTL format and a palette in PNG format. 
+
+-Specifically, GUI is need to take in file inputs and then it instantiate an instance of Mesh class and calls `App::savePNG()`, `App::saveMTL()` and `Mesh::initFromVoxels()` to create the required files.
+
+-Output files should be an OBJ file, a MTL file and a PNG palette file where the OBJ contains texture coordinates and links to the MTL and MTL links to the PNG palette.
+
+<img src='http://g.gravizo.com/g?digraph G { MagicaVoxel-> PNG;MagicaVoxel-> MTL;MagicaVoxel-> OBJ;}'>
+
+
+-To measure the performance of the program, there should be two different variables of time. One measuring how much time it takes to generate the OBJ file from Voxel file, the other measures the time it takes for the OBJ file to be loaded, and we can compare it with the independent variable which is the number of voxels. 
+
+-Correct image includes an image of a voxel file, an inside view of the voxel file to indicate that only the visible meshes are generated, and then there are images to demonstrate the correctness of the palette,MTL file and texture coordinates by changing those files manually.
+
+-Quality images includes path tracing pictures of voxel models with monuments from magicavoxel. 
+
+Topic overview
+===========================================================
+The first difficulty of this project is first converting the coordinates of a voxel into a cube object in OBJ file:
+
+
+
+
+****************************************************
+*                                                  *
+*       0              3           +y              *   
+*       *--------------*                           *
+*      /|             /|            ^              *
+*     / |            / |            |              *
+*   1/  |          2/  |            | ◄╮           *
+*   *--------------*   |          ⤹ +-----> +x     *
+*   |   |          |   |           / ⤴             *
+*   |   |          |   |          v                *
+*   |   |4   * C   |   |7                          *
+*   |   *----------|---*          +z               *
+*   |  /           |  /                            *
+*   | /            | /                             *
+*   |/             |/                              *
+*   *--------------*                               *
+*   5              6                               *
+*                                                  *
+****************************************************
+
+Assuming the center of the voxel C is (x,y,z), then the coordinates of each vertex of the box can be computed by adding `C` to a vector `Vector3(a,b,c)`, and the 6 surfaces are just combinations of the vertices that are counter clockwise. Please see below for the detailed illustration.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#Vertices:
+0: C+Vector3(-0.5,0.5,-0.5)
+1: C+Vector3(-0.5,0.5,0.5)
+2: C+Vector3(0.5,0.5,0.5)
+3: C+Vector3(0.5,0.5,-0.5)
+4: C+Vector3(-0.5,-0.5,-0.5)
+5: C+Vector3(-0.5,-0.5,0.5)
+6: C+Vector3(0.5,-0.5,0.5)
+7: C+Vector3(0.5,-0.5,-0.5)
+
+#Faces:
+TOP:    0,1,2,3
+BOTTOM: 4,7,6,5
+LEFT:   1,0,4,5
+RIGHT:  3,2,6,7
+FRONT:  1,5,6,2
+BACK:   0,3,7,4
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The second difficulty is to detect faces that are not seen from the outside and not including them in the final product. In order to do so, we keep a hashtable of voxel vertices, and for each of the 6 surfaces of the voxel we check whether there is a voxel on the opposing side by looking up the table. We only add the surface as a mesh if the look up returns null. 
+
+The final minor tweak was to delete all duplicated vertices, normal vectors and texture vertices. In order to achieve this, we include a hash table for each of the variables, and we only add a new element to it if it does not already contain the element. When we are refering to the vertices and normals in the surfaces, we use the hashtable to locate the location of that element. 
+
+Citation: Geometry Design Graphics Codex Programming Project from The Graphics Codex by Morgan McGuire
+
+Design
+==========================================================
+
+<img src='http://g.gravizo.com/g?digraph G { App -> Mesh -> initFromVoxels()->addQuad(); App -> savePNG(); App -> saveMTL();initFromVoxels->addQuad(); initFromVoxels->saveToOBJ(); initFromVoxels->weldVertices();addQuad-> addQuad2()}'>
+
+*addQuad2 is another addQuad method with different arguments
+
+ Entry Point       | Description
+ ------------------|--------------------
+        [App](../build/doc/class_app.html)       | Application framework.
+[App::savePNG(G3D::ParseVOX s)](../build/doc/class_app.html#a338675db28e52ca81fb05fb63565ee39) | helper function that saves palettes to a PNG file from ParseVOX.
+[App::saveMTL(G3D::ParseVOX s)](../build/doc/class_app.html#a4d23ea3a2194fb7900bb6c255a5ce755)  | helper function that saves an arbitrary MTL file that links palette and the OBJ file
+[Mesh::initFromVoxels(const ParseVOX& voxelGrid,String m_outputName)](../build/doc/class_mesh.html#a653f4b3eed550b005fd44d6b8a12d957)  | starter function that takes in a ParseVOX and calls other methods to save it as an OBJ file.
+[Mesh::addQuad(Vector3::Axis axis, const Point3& center, float sign, const Point2& texCoord)](../build/doc/class_mesh.html#a5a615faa12d2b862bc6dec8b54855ae1)     | helper function that computes the 4 vertices of a face and the texture coordinates using the center coordinate of the voxel.
+[Mesh::addQuad(const Point3& A, const Point3& B, const Point3& C, const Point3& D,  const Point2& texCoord)](../build/doc/class_mesh.html#a4c82dc8df93e17ab971c31ab936d7895)   | helper function that takes in 4 vertices of a face and updating indexArray,textureCoordinates and vertexArray.
+[Mesh::weldVertices()](../build/doc/class_mesh.html#afe3ead90abd9a4c5e5b16fb5c9884485) | helper function that welds the vertices and updates vertexArray, textureCoords, normalArray, indexArray.
+[Mesh::saveToOBJ(TextOutput myfile,String m_outputName)](../build/doc/class_mesh.html#a8142aa1b511ecff88b5144a45dc95c52) | helper function that saves to an OBJ file using vertexArray, textureCoords, normalArray, indexArray.
+
+
+**Design explanation:**
+The decision to include the addQuad to the Mesh class shrinks the code down by generalizing the code to write vertices based on the vertex and the direction vector, and then the other addQuad method helps to use that to generate data for vertexArray, textureCoords, normalArray for indexArray which can then be used later for saveToObj method to save to the corresponding OBJ file. Comparing to the brute force version, which is a giant method without helper methods, this version compresses the code by deleting the repetition of the code that generates vertices and faces and writing them to file, and it ultimately stores the data inside an array which is passed between methods. Whereas the bruteforce method simply parses the VOX file and writes to OBJ file directly. This particular design is cleaner and more organized at the cost of a slight increase in storage and time. 
+
+Correctness Results
+===========================================================
 
 
 
 
 
-
-Quality Demonstration Images
+Quality Results
 ===========================================================
 
 ![1](snap2016-10-06-10-03-02.png width = 450)
@@ -36,23 +141,54 @@ Quality Demonstration Images
 
 
 
-Self-Review
+Self-Evaluation
 =============================================================
+**Evaluation:**
 
+The project deserves somewhere between B to A-. The specification should be relatively unambiguous; however due to the nature of the voxel file, it is difficult to construct a specification that's both clear and concise at the same time. 
 
+**Skills Learned:**
 
+-using helper methods that shrinks code size and using the constant lookup time of hashtable to process data faster.
 
+-constructing reasonable systems of quadrilateral meshes from vertices. 
 
-Skills
+-familiarizing with OBJ and VOX file format
+
+-better understanding of importance sampling
+
+**Workflow:**
+Workflow is decent in terms of the actual code writing, but the time reserved for report and scene rendering was underestimated. For next time, report should be written along with code writing.
+
+**Code:**
+The code has undergo a lot of revision and should be quite concise, although I suspect there are ways to further compress the size of the code. The utility of the code is not quite great. There should be options in GUI panel for MTL and PNG file, but those were ignored for efficiency of inputing large amount of voxel file by hand. 
+
+**Report:**
+Report can be more detailed, the writing can be polished more, but overall it should be quite concise and easy yto understand. 
+
+Schedule:
 ============================================================
-We learned:
+Report: 2016-10-20
+
+Code: 2016-10-15
+
+MVP: 2016-10-10
+
+Change Log:
+============================================================
+2016-10-06->2016-10-13: First version of the code, with brute force method that directly converts data to file.
+
+2016-10-13->2016-10-15: Collapsing code and storing all variables into arrays for welder function and deleting all extra vertices and vectors. 
+
+2016-10-15->2016-10-19: Final version of the code, with all helper function implemented to avoid repetition of code.
 
 
-Workflow
+Citations
 ==========================================================================================================
+Geometry Design Graphics Codex Programming Project from The Graphics Codex by Morgan McGuire
+[Link](http://graphicscodex.com/projects/geo-design/index.html)
 
 
-So a total of 13.3 hours counting from the start of lab. Approximately 6 hours MVP and another 7.3 on polish.
 
 <!-- Markdeep: -->
 <style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace;}</style><script src="https://casual-effects.com/markdeep/latest/markdeep.min.js"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
